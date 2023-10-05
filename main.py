@@ -1,20 +1,23 @@
 import pygame
 from Player import Player
+from Game import Game
 
 game = True
 pygame.init()
 win = pygame.display.set_mode((612, 400))
 clock = pygame.time.Clock()
 
-player = Player(0, 0, (255, 0, 0))
+game = Game()
+game.set_player(Player(100, 100, (255, 0, 0)))
+
 
 while game:
-    clock.tick(16)
+    clock.tick(60)
     win.fill((0, 0, 0))
     events = pygame.event.get()
 
-    player.update(events)
-    player.draw(win)
+    game.update(events)
+    game.draw(win)
 
     pygame.display.update()
 

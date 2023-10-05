@@ -2,32 +2,55 @@ from Empty import Empty
 import pygame
 from pygame import Vector2
 
+from Game import Events
+
 
 class Player(Empty):
     def __init__(self, x, y, color):
         super().__init__(x, y)
 
+        pygame.time.set_timer(Events.COIN, 1000)
+
         self.color = color
         self.selection = 0
+        self.money = 0
+        self.speed = 1.8
+        self.charging = False
+        self.charge = 1
 
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.pos.x, self.pos.y, 20, 20))
 
-        pygame.draw.rect(win, (165, 165, 165), (5, 5 + (40 + 5) * self.selection, 50, 50))
-
-        for i in range(5):
-            pygame.draw.rect(win, (65, 65, 65), (10, 10 + (40 + 5) * i, 40, 40))
+        font = pygame.font.SysFont("arial", 24)
+        img = font.render(str(self.money), True, (255, 255, 255))
+        win.blit(img, (20, 20))
 
     def update(self, events):
         direction = self.get_direction
         if direction.length() > 0:
             direction = direction.normalize()
-        self.move(direction, 10)
+
+        self.move(direction, self.speed)
 
         for event in events:
-            if event.type == pygame.MOUSEWHEEL:
-                self.selection -= event.y
-                self.selection %= 5
+            if event.type == Events.COIN:
+                if self.charging:
+                    self.money -= 1
+                    self.charge += 1
+                else:
+                    self.money += 1
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and self.money >= 1:
+                    # pygame.event.post(pygame.event.Event(Events.ATTACK, direction=direction*self.speed, power=1))
+                    self.charging = True
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    pygame.event.post(pygame.event.Event(Events.ATTACK, direction=direction*self.speed, power=self.charge))
+                    self.charge = 1
+                    self.money -= 1
+                    self.charging = False
 
     @property
     def get_direction(self):
@@ -44,3 +67,6 @@ class Player(Empty):
             direction.x = 1
 
         return direction
+
+    def get_center(self):
+        return self.pos + Vector2(10, 10) / 2
