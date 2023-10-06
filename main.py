@@ -1,6 +1,6 @@
 import pygame
-from Player import Player
 from Game import Game
+from Player import Player
 
 game = True
 pygame.init()
@@ -8,8 +8,7 @@ win = pygame.display.set_mode((612, 400))
 clock = pygame.time.Clock()
 
 game = Game()
-game.set_player(Player(100, 100, (255, 0, 0)))
-
+game.set_player(Player(20, 20))
 
 while game:
     clock.tick(60)
