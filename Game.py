@@ -1,4 +1,8 @@
-from Empty import Empty
+import pygame
+
+from Empty import *
+from Boulder import Boulder
+from Generator import Generator
 
 
 class Game(Empty):
@@ -10,10 +14,18 @@ class Game(Empty):
         self.game_objects = []
 
         self.player = None
+        self.coin_delay = 1000
 
     def update(self, events):
         for game_object in self.game_objects:
             game_object.update(events)
+
+        for event in events:
+            if event.type == Events.SHOOT:
+                self.add_object(Boulder(self.player.center.copy(), event.power, event.inherited_speed), 4, 1)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.coin_delay /= 1.5
+                self.add_object(Generator(self.player.center.copy(), self.coin_delay), 1, 1)
 
     def draw(self, win):
         for render_layer in reversed(self.render_layers):

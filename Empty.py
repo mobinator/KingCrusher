@@ -1,3 +1,4 @@
+import pygame
 from pygame import Vector2
 
 
@@ -46,12 +47,32 @@ class CollisionShape2D(Empty):
 
         self.center = self.pos + Vector2(width, height) / 2
 
-    def __init__(self, pos, size: Vector2):
-        super().__init__(pos.x, pos.y)
+        self.sprite = None
+
+    def __init__(self, center: Vector2, size: Vector2):
+        self.pos = center - size / 2
+        super().__init__(self.pos.x, self.pos.y)
 
         self.size = size
-        self.center = self.pos + self.size/2
+        self.center = center
+
+        self.sprite = None
 
     def move(self, direction: Vector2, speed: float):
         super().move(direction, speed)
-        self.center += direction * speed
+        self.center = self.pos + self.size/2
+
+    def draw(self, win):
+        self.draw_sprite(win)
+
+    def draw_sprite(self, win):
+        pass
+
+    def set_sprite(self, sprite):
+        self.sprite = sprite
+
+
+class Events:
+    COIN = pygame.USEREVENT + 1
+    SHOOT = pygame.USEREVENT + 2
+
