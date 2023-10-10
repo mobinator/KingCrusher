@@ -15,7 +15,6 @@ class Player(CollisionShape2D):
         self.money = 0
         self.charge = 0
         self.base_speed = 1.8
-        self.window_size = pygame.display.get_surface().get_size()
         pygame.time.set_timer(Events.COIN, 1000)
 
         # animations

@@ -3,6 +3,7 @@ import pygame
 from Empty import *
 from Boulder import Boulder
 from Generator import Generator
+from Background import Background
 
 
 class Game(Empty):
@@ -12,11 +13,15 @@ class Game(Empty):
         self.render_layers = [[], [], [], [], []]
         self.collision_layers = [[], [], [], [], []]
         self.game_objects = []
+        
+        self.background = Background(pygame.display.get_surface().get_size())
 
         self.player = None
         self.coin_delay = 1000
 
     def update(self, events):
+        self.background.update_window_size()
+
         for game_object in self.game_objects:
             game_object.update(events)
 
@@ -28,6 +33,7 @@ class Game(Empty):
                 self.add_object(Generator(self.player.center.copy(), self.coin_delay), 1, 1)
 
     def draw(self, win):
+        self.background.draw(win)
         for render_layer in reversed(self.render_layers):
             for game_object in render_layer:
                 game_object.draw(win)
