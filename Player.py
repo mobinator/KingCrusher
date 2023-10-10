@@ -8,18 +8,37 @@ class Player(CollisionShape2D):
 
     def __init__(self, x: float, y: float):
         super().__init__(Vector2(x, y), Vector2(20, 20))
+        
+        self.initial_window_size = (612, 400)  # start size
+        self.window_size = pygame.display.get_surface().get_size()
 
         self.money = 0
         self.charge = 0
-        
         self.base_speed = 1.8
-        # Holt die aktuelle Fenstergröße
         self.window_size = pygame.display.get_surface().get_size()
-
         pygame.time.set_timer(Events.COIN, 1000)
 
+        # animations
+        self.animations = {
+            "walking": [pygame.image.load(f'assets/king/walking/{i}.png') for i in range(1, 5)],
+            "idle": [pygame.image.load(f'assets/king/idle/{i}.png') for i in range(1, 5)],
+            "damage": []  # TODO
+        }
+        self.current_animation = "idle"
+        self.current_frame = 0
+        self.animation_time = 0
+        self.flip_image = False
+        
     def draw(self, win):
-        pygame.draw.rect(win, (255, 55, 55), (self.pos, self.size))
+        scale_factor = self.window_size[0] / 612
+        print("Scale Factor: ",scale_factor)
+        image = pygame.transform.scale(self.animations[self.current_animation][self.current_frame],
+                                       (int(40 * scale_factor), int(80 * scale_factor)))
+
+        if self.flip_image:
+            image = pygame.transform.flip(image, True, False)
+
+        win.blit(image, self.pos)
 
         font = pygame.font.SysFont("Arial", 24)
         text = font.render(str(self.money), True, (255, 255, 255))
@@ -32,12 +51,12 @@ class Player(CollisionShape2D):
         direction = self.calculate_move_direction()
         
         # calculating speed factor by different screen size
-        current_window_size = pygame.display.get_surface().get_size()
-        speed_factor = (current_window_size[0] * current_window_size[1]) / (self.window_size[0] * self.window_size[1])
+        self.window_size = pygame.display.get_surface().get_size()
+        speed_factor = (self.window_size[0] * self.window_size[1]) / (self.initial_window_size[0] * self.initial_window_size[1])        
         
         # limit for balancing
         speed_factor = max(0.8, min(speed_factor, 7))
-        #print(speed_factor)
+        print("Speed Factor: ",speed_factor)
         
         self.move(direction, self.base_speed * speed_factor)
 
@@ -48,6 +67,17 @@ class Player(CollisionShape2D):
                 if self.charge > 0:
                     pygame.event.post(pygame.event.Event(Events.SHOOT, power=self.charge, inherited_speed=direction))
                     self.charge = 0
+        
+        self.animation_time += 1
+        if self.animation_time > 5:  # animation speed
+            self.animation_time = 0
+            self.current_frame = (self.current_frame + 1) % 4
+
+        if direction.length() == 0:
+            self.current_animation = "idle"
+        else:
+            self.current_animation = "walking"
+            self.flip_image = direction.x < 0
 
     @staticmethod
     def calculate_move_direction():
