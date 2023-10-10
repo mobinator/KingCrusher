@@ -11,7 +11,7 @@ clock = pygame.time.Clock()
 game = Game()
 game.set_player(Player(20, 20))
 menu = MainMenu()
-settings = Settings()
+settings = Settings(menu)
 
 state = "MAIN_MENU"
 
@@ -38,7 +38,10 @@ while True:
         settings.draw(win)
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                settings.check_button_click(event.pos)
+                if settings.check_button_click(event.pos):
+                    pass
+                elif settings.check_back_button_click(event.pos):
+                    state = "MAIN_MENU"
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()

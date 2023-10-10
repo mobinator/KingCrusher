@@ -1,7 +1,8 @@
 import pygame
 
 class Settings:
-    def __init__(self):
+    def __init__(self, main_menu):
+        self.main_menu = main_menu
         self.button_sizes = {
             "small": (60, 60),
             "medium": (60, 60),
@@ -26,10 +27,14 @@ class Settings:
             "medium": (30, 140),
             "large": (30, 220)
         }
+        
+        self.back_button_image = pygame.transform.scale(pygame.image.load('assets/ui/settingbutton/normal.png'), (30, 30))
+        self.back_button_position = (10, 10) 
 
     def draw(self, win):
         for key in self.current_buttons:
             win.blit(self.current_buttons[key], self.positions[key])
+        win.blit(self.back_button_image, self.back_button_position)
     
     def check_button_hover(self, pos):
         # Überprüfe, ob der Mauszeiger über einem der Buttons ist
@@ -52,10 +57,18 @@ class Settings:
                 return True
         return False
 
+    def check_back_button_click(self, pos):
+        rect = pygame.Rect(self.back_button_position, (60, 60))
+        if rect.collidepoint(pos) and pygame.mouse.get_pressed()[0]:
+            return True
+        return False
+    
     def change_screen_size(self, size_key):
         sizes = {
             "small": (612, 400),
             "medium": (1024, 768),
             "large": (1920, 1080)
         }
-        pygame.display.set_mode(sizes[size_key])
+        new_size = sizes[size_key]
+        pygame.display.set_mode(new_size)
+        self.main_menu.set_screen_size(new_size) 
