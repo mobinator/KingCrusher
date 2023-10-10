@@ -46,13 +46,6 @@ class Player(CollisionShape2D):
         stamina_pos = self.pos - Vector2(40 * scale_factor, 10 * scale_factor)
         win.blit(stamina_image, stamina_pos)
 
-        font = pygame.font.SysFont("Arial", 24)
-        text = font.render(str(self.money), True, (255, 255, 255))
-        win.blit(text, (20, 20))
-        font = pygame.font.SysFont("Arial", 24)
-        text = font.render(str(self.charge), True, (255, 255, 255))
-        win.blit(text, (20, 60))
-
     def update(self, events):
         direction = self.calculate_move_direction()
         
