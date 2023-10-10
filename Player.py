@@ -31,7 +31,7 @@ class Player(CollisionShape2D):
         for event in events:
             if event.type == Events.COIN:
                 self.process_coins()
-            if event.type == pygame.KEYUP:
+            if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                 if self.charge > 0:
                     pygame.event.post(pygame.event.Event(Events.SHOOT, power=self.charge, inherited_speed=direction))
                     self.charge = 0
