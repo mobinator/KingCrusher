@@ -19,6 +19,7 @@ while True:
     events = pygame.event.get()
 
     if in_menu:
+        menu.check_button_hover(pygame.mouse.get_pos())
         menu.draw(win)
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
