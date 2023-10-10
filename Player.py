@@ -11,6 +11,10 @@ class Player(CollisionShape2D):
 
         self.money = 0
         self.charge = 0
+        
+        self.base_speed = 1.8
+        # Holt die aktuelle Fenstergröße
+        self.window_size = pygame.display.get_surface().get_size()
 
         pygame.time.set_timer(Events.COIN, 1000)
 
@@ -26,7 +30,16 @@ class Player(CollisionShape2D):
 
     def update(self, events):
         direction = self.calculate_move_direction()
-        self.move(direction, 1.8)
+        
+        # calculating speed factor by different screen size
+        current_window_size = pygame.display.get_surface().get_size()
+        speed_factor = (current_window_size[0] * current_window_size[1]) / (self.window_size[0] * self.window_size[1])
+        
+        # limit for balancing
+        speed_factor = max(0.8, min(speed_factor, 7))
+        #print(speed_factor)
+        
+        self.move(direction, self.base_speed * speed_factor)
 
         for event in events:
             if event.type == Events.COIN:
