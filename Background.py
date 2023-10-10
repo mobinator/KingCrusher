@@ -19,11 +19,12 @@ class Background:
         self.populate_grass()
 
     def populate_grass(self):
+        self.grass_positions.clear()
+        self.grass_types.clear()
         i = 0
         while len(self.grass_positions) < 10 and i < 200:
             i = i + 1
             scale_factor = self.window_size[0] / self.initial_window_size[0]
-            print(scale_factor)
             chosen_grass = random.choice(self.grass_images)
             width, height = chosen_grass.get_size()
             width, height = int(40 * scale_factor), int(40 * scale_factor)
