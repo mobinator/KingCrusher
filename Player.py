@@ -22,7 +22,8 @@ class Player(CollisionShape2D):
         self.animations = {
             "walking": [pygame.image.load(f'assets/king/walking/{i}.png') for i in range(1, 5)],
             "idle": [pygame.image.load(f'assets/king/idle/{i}.png') for i in range(1, 5)],
-            "damage": []  # TODO
+            "damage": [],  # TODO
+            "stamina": [pygame.image.load(f'assets/ui/stamina/{i}.png') for i in range(8)]
         }
         self.current_animation = "idle"
         self.current_frame = 0
@@ -31,7 +32,7 @@ class Player(CollisionShape2D):
         
     def draw(self, win):
         scale_factor = self.window_size[0] / 612
-        print("Scale Factor: ",scale_factor)
+        #print("Scale Factor: ",scale_factor)
         image = pygame.transform.scale(self.animations[self.current_animation][self.current_frame],
                                        (int(40 * scale_factor), int(80 * scale_factor)))
 
@@ -39,6 +40,12 @@ class Player(CollisionShape2D):
             image = pygame.transform.flip(image, True, False)
 
         win.blit(image, self.pos)
+        
+        scale_factor = self.window_size[0] / self.initial_window_size[0]
+        stamina_image = pygame.transform.scale(self.animations["stamina"][self.money], 
+                                           (int(120 * scale_factor), int(80 * scale_factor)))
+        stamina_pos = self.pos - Vector2(40 * scale_factor, 10 * scale_factor)
+        win.blit(stamina_image, stamina_pos)
 
         font = pygame.font.SysFont("Arial", 24)
         text = font.render(str(self.money), True, (255, 255, 255))
@@ -56,7 +63,7 @@ class Player(CollisionShape2D):
         
         # limit for balancing
         speed_factor = max(0.8, min(speed_factor, 7))
-        print("Speed Factor: ",speed_factor)
+        #print("Speed Factor: ",speed_factor)
         
         self.move(direction, self.base_speed * speed_factor)
 
