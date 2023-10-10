@@ -23,3 +23,5 @@ while game:
     for event in events:
         if event.type == pygame.QUIT:
             game = False
+
+pygame.quit()
