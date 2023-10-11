@@ -3,6 +3,7 @@ from pygame import Vector2
 
 class SelectionMenu:
     def __init__(self, player):
+        self.initial_window_size = (612, 400)  # start size
         self.player = player
         self.window_size = pygame.display.get_surface().get_size()
         self.images = {
@@ -15,6 +16,7 @@ class SelectionMenu:
 
     def toggle(self):
         if self.player.charge == 7:
+            self.window_size = pygame.display.get_surface().get_size()
             self.active = not self.active
     
     def close(self):
@@ -37,7 +39,7 @@ class SelectionMenu:
         if not self.active:
             return
 
-        scale_factor = self.window_size[0] / 612
+        scale_factor = self.window_size[0] / self.initial_window_size[0]
         image = pygame.transform.scale(self.images[self.state], (int(80 * scale_factor), int(40 * scale_factor)))
         pos = self.player.pos + Vector2(0, -40 * scale_factor)
         pos[0] = pos[0] - 20 * scale_factor

@@ -21,9 +21,9 @@ class Wall(CollisionShape2D):
         scale_factor = self.window_size[0] / self.initial_window_size[0]
         if not self.finished_building:
             img = pygame.transform.scale(self.building_animations[self.animation_index],
-                                         (int(160 * scale_factor), int(120 * scale_factor)))
+                                         (int(200 * scale_factor), int(120 * scale_factor)))
         else:
-            img = pygame.transform.scale(self.final_image, (int(160 * scale_factor), int(120 * scale_factor)))
+            img = pygame.transform.scale(self.final_image, (int(200 * scale_factor), int(120 * scale_factor)))
         win.blit(img, self.pos)
 
     def update(self, events):
