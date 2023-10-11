@@ -4,6 +4,7 @@ from pygame import Vector2
 from Empty import CollisionShape2D, Events
 from Selectionmenu import SelectionMenu
 from Generator import Generator
+from Wall import Wall
 
 
 class Player(CollisionShape2D):
@@ -76,6 +77,8 @@ class Player(CollisionShape2D):
                 if self.build_menu.state == "right":
                     self.game.add_object(Generator(self.center.copy(), self.game.coin_delay), 1, 1)
                     #TODO: Place Generator
+                elif self.build_menu.state == "left":
+                    self.game.add_object(Wall(self.center.copy()), 1, 1)
                 elif self.charge > 0:
                     pygame.event.post(pygame.event.Event(Events.SHOOT, power=self.charge, inherited_speed=direction))
                     self.charge = 0
