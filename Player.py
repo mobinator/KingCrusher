@@ -79,6 +79,7 @@ class Player(CollisionShape2D):
                 elif self.charge > 0:
                     pygame.event.post(pygame.event.Event(Events.SHOOT, power=self.charge, inherited_speed=direction))
                     self.charge = 0
+                self.build_menu.state = "neutral"
 
         
         self.build_menu.update(events)
