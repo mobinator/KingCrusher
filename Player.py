@@ -2,15 +2,21 @@ import pygame
 
 from pygame import Vector2
 from Empty import CollisionShape2D, Events
+from Selectionmenu import SelectionMenu
+from Generator import Generator
 
 
 class Player(CollisionShape2D):
 
-    def __init__(self, x: float, y: float):
+    def __init__(self, x: float, y: float, game):
         super().__init__(Vector2(x, y), Vector2(20, 20))
+        
+        self.game = game
         
         self.initial_window_size = (612, 400)  # start size
         self.window_size = pygame.display.get_surface().get_size()
+        
+        self.build_menu = SelectionMenu(self)
 
         self.money = 0
         self.charge = 0
@@ -44,6 +50,7 @@ class Player(CollisionShape2D):
         stamina_image = pygame.transform.scale(self.animations["stamina"][self.money], 
                                            (int(120 * scale_factor), int(80 * scale_factor)))
         stamina_pos = self.pos - Vector2(40 * scale_factor, 10 * scale_factor)
+        self.build_menu.draw(win)
         win.blit(stamina_image, stamina_pos)
 
     def update(self, events):
@@ -62,11 +69,19 @@ class Player(CollisionShape2D):
         for event in events:
             if event.type == Events.COIN:
                 self.process_coins()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                self.build_menu.toggle()
             if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
-                if self.charge > 0:
+                self.build_menu.close()
+                if self.build_menu.state == "right":
+                    self.game.add_object(Generator(self.center.copy(), self.game.coin_delay), 1, 1)
+                    #TODO: Place Generator
+                elif self.charge > 0:
                     pygame.event.post(pygame.event.Event(Events.SHOOT, power=self.charge, inherited_speed=direction))
                     self.charge = 0
+
         
+        self.build_menu.update(events)
         self.animation_time += 1
         if self.animation_time > 5:  # animation speed
             self.animation_time = 0
@@ -102,6 +117,8 @@ class Player(CollisionShape2D):
         if keys[pygame.K_SPACE]:
             if self.money > 0:
                 self.charge += 1
+                if self.charge == 7:  # Prüfen, ob charge 7 erreicht hat
+                    self.build_menu.toggle()
             self.money -= 1
         else:
             self.money += 1

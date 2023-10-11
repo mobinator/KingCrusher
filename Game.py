@@ -28,7 +28,7 @@ class Game(Empty):
         for event in events:
             if event.type == Events.SHOOT:
                 self.add_object(Boulder(self.player.center.copy(), event.power, event.inherited_speed), 4, 1)
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and not self.player.build_menu.active:
                 self.coin_delay /= 1.5
                 self.add_object(Generator(self.player.center.copy(), self.coin_delay), 1, 1)
 
@@ -39,6 +39,7 @@ class Game(Empty):
                 game_object.draw(win)
 
     def set_player(self, player):
+        player.game = self  # setze den game Verweis in der Player Instanz
         self.player = player
         self.add_object(player, 2, 1)
 

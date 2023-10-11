@@ -9,7 +9,7 @@ win = pygame.display.set_mode((612, 400))
 clock = pygame.time.Clock()
 
 game = Game()
-game.set_player(Player(20, 20))
+game.set_player(Player(20, 20, game))
 menu = MainMenu()
 settings = Settings(menu)
 
