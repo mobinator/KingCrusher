@@ -67,9 +67,12 @@ class EscapeMenu:
                 
                 if self.hovered_button in ['home', 'settings']:
                     self.hide()
+                elif self.hovered_button == 'resume':
+                    self.hide()
+                    self.state[0] = "SETTINGS"
                 elif self.hovered_button == 'exit':
                     self.hide()
-                    self.state[0] = "MAIN_MENU"  # Wechsel zum Hauptmenü
+                    self.state[0] = "MAIN_MENU"
         
         if event.type == pygame.MOUSEBUTTONUP:
             if self.hovered_button:
