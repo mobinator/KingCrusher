@@ -8,6 +8,11 @@ class EscapeMenu:
         self.scale_factor = self.window_size[0] / 612
         self.image_base_path = 'assets/ui/escape_menu/'
         self.hovered_button = None
+        self.is_visible = False
+        
+    def load_and_scale_images(self):
+        self.window_size = pygame.display.get_surface().get_size()
+        self.scale_factor = self.window_size[0] / 612
         self.images = {
             'home': {
                 'hover': pygame.transform.scale(pygame.image.load(self.image_base_path + 'hover_x.png'), (240 * self.scale_factor, 280 * self.scale_factor)),
@@ -31,15 +36,16 @@ class EscapeMenu:
             },
             'normal': pygame.transform.scale(pygame.image.load(self.image_base_path + 'normal.png'), (240 * self.scale_factor, 280 * self.scale_factor))
         }
-        self.active_image = self.images['normal']
-        self.is_visible = False
         
         self.images['home']['rect'] = pygame.Rect(352 * self.scale_factor, 39 * self.scale_factor, 28 * self.scale_factor, 28 * self.scale_factor)
         self.images['settings']['rect'] = pygame.Rect(220 * self.scale_factor, 85 * self.scale_factor, 160 * self.scale_factor, 39 * self.scale_factor)
         self.images['resume']['rect'] = pygame.Rect(220 * self.scale_factor, 140 * self.scale_factor, 160 * self.scale_factor, 39 * self.scale_factor)
         self.images['exit']['rect'] = pygame.Rect(220 * self.scale_factor, 195 * self.scale_factor, 160 * self.scale_factor, 39 * self.scale_factor)
-
+        
     def show(self):
+        print("SHOW")
+        self.load_and_scale_images()
+        self.active_image = self.images['normal']
         self.is_visible = True
 
     def hide(self):
