@@ -5,17 +5,15 @@ from pygame import Vector2
 class Generator(CollisionShape2D):
 
     def __init__(self, center, current_timer_time):
-        super().__init__(center, Vector2(120, 120))  # Größe wurde angepasst
+        super().__init__(center, Vector2(120, 120))
         pygame.time.set_timer(Events.COIN, int(current_timer_time))
         
-        self.initial_window_size = (612, 400)  # Startgröße, angepasst an Player.py
+        self.initial_window_size = (612, 400)
         self.window_size = pygame.display.get_surface().get_size()
         
-        # Bilder laden
         self.building_animations = [pygame.image.load(f'assets/landscape/generator/{i}.png') for i in range(1, 8)]
         self.final_image = pygame.image.load('assets/landscape/generator/8.png')
         
-        # Animation
         self.animation_index = 0
         self.animation_speed = 10
         self.animation_time = 0
@@ -23,7 +21,6 @@ class Generator(CollisionShape2D):
 
     def draw(self, win):
         scale_factor = self.window_size[0] / self.initial_window_size[0]
-        # Skalierung der Bilder
         if not self.finished_building:
             img = pygame.transform.scale(self.building_animations[self.animation_index],
                                          (int(120 * scale_factor), int(120 * scale_factor)))
@@ -39,5 +36,5 @@ class Generator(CollisionShape2D):
             if self.animation_time > self.animation_speed:
                 self.animation_time = 0
                 self.animation_index += 1
-                if self.animation_index == len(self.building_animations):  # Ende der Animation
+                if self.animation_index == len(self.building_animations):
                     self.finished_building = True

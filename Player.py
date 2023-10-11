@@ -75,8 +75,8 @@ class Player(CollisionShape2D):
             if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                 self.build_menu.close()
                 if self.build_menu.state == "right":
+                    self.game.coin_delay /= 2.1
                     self.game.add_object(Generator(self.center.copy(), self.game.coin_delay), 1, 1)
-                    #TODO: Place Generator
                 elif self.build_menu.state == "left":
                     self.game.add_object(Wall(self.center.copy()), 1, 1)
                 elif self.charge > 0:
