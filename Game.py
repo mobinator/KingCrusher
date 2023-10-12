@@ -4,6 +4,7 @@ from Empty import *
 from Boulder import Boulder
 from Generator import Generator
 from Background import Background
+from Minimap import Minimap
 
 
 class Game(Empty):
@@ -15,6 +16,8 @@ class Game(Empty):
         self.game_objects = []
         
         self.background = Background(pygame.display.get_surface().get_size())
+        
+        self.minimap = Minimap()
 
         self.player = None
         self.coin_delay = 1000
@@ -37,6 +40,7 @@ class Game(Empty):
         for render_layer in reversed(self.render_layers):
             for game_object in render_layer:
                 game_object.draw(win)
+        self.minimap.draw(win)
 
     def set_player(self, player):
         player.game = self
