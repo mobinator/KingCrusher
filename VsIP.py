@@ -1,12 +1,12 @@
 import pygame
 
 class IPinput:
-    def __init__(self):
+    
+    def load(self, win):
         self.screen_size = pygame.display.get_surface().get_size()
         self.scale_factor = self.screen_size[0] / 612
         self.bg_image = pygame.transform.scale(pygame.image.load('assets/ui/mainmenu/bg_dark.png'), self.screen_size)
         
-        # Laden des Exit-Buttons
         self.exit_button_images = {
             "normal": pygame.transform.scale(pygame.image.load('assets/ui/VsIP/normal.png'), (int(240*self.scale_factor), int(120*self.scale_factor))),
             "hover": pygame.transform.scale(pygame.image.load('assets/ui/VsIP/hover.png'), (int(240*self.scale_factor), int(120*self.scale_factor))),
@@ -15,22 +15,26 @@ class IPinput:
         
         self.exit_button_image = self.exit_button_images["normal"]
         
-        # Gesamte Bildposition
         self.image_position = (180*self.scale_factor, 110*self.scale_factor)
         
-        # Nur ein Bereich des Bildes soll anklickbar sein
         self.exit_button_rect = pygame.Rect(376*self.scale_factor, 123*self.scale_factor, 34*self.scale_factor, 34*self.scale_factor)
+        
+        self.input_text = ""
+        self.font = pygame.font.Font('assets/fonts/alagard.ttf', int(30*self.scale_factor))
+        
+        self.input_pos = (210*self.scale_factor, 173*self.scale_factor)
 
     def draw(self, win):
         win.blit(self.bg_image, (0, 0))
         
-        # Zeichne das gesamte Bild
         win.blit(self.exit_button_image, self.image_position)
 
-        # Optional: Zeichne das semi-transparente Rechteck, um den anklickbaren Bereich zu zeigen (für Debugging-Zwecke)
-        semi_transparent_surface = pygame.Surface((self.exit_button_rect.width, self.exit_button_rect.height), pygame.SRCALPHA)
-        semi_transparent_surface.fill((255, 255, 255, 0))
-        win.blit(semi_transparent_surface, self.exit_button_rect.topleft)
+        #semi_transparent_surface = pygame.Surface((self.exit_button_rect.width, self.exit_button_rect.height), pygame.SRCALPHA)
+        #semi_transparent_surface.fill((255, 255, 255, 0))
+        #win.blit(semi_transparent_surface, self.exit_button_rect.topleft)
+        
+        rendered_text = self.font.render(self.input_text, True, (255, 255, 255))
+        win.blit(rendered_text, self.input_pos)
 
     def handle_event(self, event, state):
         mouse_pos = pygame.mouse.get_pos()
@@ -47,9 +51,20 @@ class IPinput:
                 
         if event.type == pygame.MOUSEBUTTONUP:
             if self.exit_button_rect.collidepoint(mouse_pos):
-                print("release")
                 self.exit_button_image = self.exit_button_images["normal"]
                 state[0] = "MAIN_MENU"
+        if event.type == pygame.KEYDOWN:
+            if event.unicode in '0123456789.' and len(self.input_text) < 15:
+                if (len(self.input_text) == 3 or len(self.input_text) == 7 or len(self.input_text) == 11) and event.unicode not in '.' and '.' not in self.input_text[-3:]:
+                    self.input_text += '.'
+                self.input_text += event.unicode
+            elif event.key == pygame.K_BACKSPACE:
+                self.input_text = self.input_text[:-1]
+            elif event.key == pygame.K_RETURN:
+                if len(self.input_text) > 8 and self.input_text.count('.') == 3:
+                    print("IP:", self.input_text)
+                else:
+                    print("not full ip adress")
 
 
     def check_for_enter(self, state):

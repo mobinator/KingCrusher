@@ -31,6 +31,7 @@ while True:
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if menu.check_button_click(event.pos):
+                    ip_input.load(win)
                     state[0] = "VS_IP"
                 elif menu.check_settings_click(event.pos):
                     state[0] = "SETTINGS"
@@ -41,7 +42,7 @@ while True:
         ip_input.draw(win)
         ip_input.check_for_enter(state)
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN or  event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONDOWN or  event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONUP or event.type == event.type == pygame.KEYDOWN:
                 ip_input.handle_event(event, state)
             if event.type == pygame.QUIT:
                 pygame.quit()
