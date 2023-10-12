@@ -1,11 +1,29 @@
 import pygame
+import socket
+
+def get_local_ip():
+    try:
+        # Erstellen Sie eine Verbindung zum Internet (verwendet Google's öffentlichen DNS-Server, um dies zu tun)
+        # Dies wird nur dazu verwendet, um eine Internetverbindung herzustellen und NICHT wirklich eine Verbindung zu Google herzustellen.
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+        return local_ip
+    except:
+        return "127.0.0.1"  # Wenn keine Verbindung möglich ist, geben Sie localhost zurück
+
 
 class IPinput:
     
     def load(self, win):
+        
         self.screen_size = pygame.display.get_surface().get_size()
         self.scale_factor = self.screen_size[0] / 612
         self.bg_image = pygame.transform.scale(pygame.image.load('assets/ui/mainmenu/bg_dark.png'), self.screen_size)
+        
+        self.local_ip = get_local_ip()
+        self.ip_font = pygame.font.Font('assets/fonts/alagard.ttf', int(20*self.scale_factor))
         
         self.exit_button_images = {
             "normal": pygame.transform.scale(pygame.image.load('assets/ui/VsIP/normal.png'), (int(240*self.scale_factor), int(120*self.scale_factor))),
@@ -35,6 +53,10 @@ class IPinput:
         
         rendered_text = self.font.render(self.input_text, True, (255, 255, 255))
         win.blit(rendered_text, self.input_pos)
+        
+        ip_text = self.ip_font.render("Your IP: " + self.local_ip, True, (255, 255, 255))
+        win.blit(ip_text, (10, 10))  # Sie können die Position nach Bedarf anpassen
+
 
     def handle_event(self, event, state):
         mouse_pos = pygame.mouse.get_pos()
