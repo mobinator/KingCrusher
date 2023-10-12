@@ -14,32 +14,36 @@ class Boulder(CollisionShape2D):
 
         self.direction = Vector2(0, -1)
 
-        if inherited_speed.length() > 0:
-            self.direction += inherited_speed/2
+        self.direction += inherited_speed/2
 
-        self.speed = 8 - charge/2
+        self.speed = 6 - charge/2
     
         
         self.rect = pygame.Rect(self.pos.x, self.pos.y, self.size.x, self.size.y)
 
     def load_images(self):
-        # Basierend auf dem charge Wert den richtigen Pfad und Bilderanzahl festlegen
+        scale_factor = pygame.display.get_surface().get_size()[0] / 612
+        
         if 1 <= self.charge <= 2:
             path = "assets/attacks/small"
+            size = (int(40 * scale_factor), int(40 * scale_factor))
         elif 3 <= self.charge <= 4:
             path = "assets/attacks/medium"
+            size = (int(60 * scale_factor), int(60 * scale_factor))
         else:
             path = "assets/attacks/large"
+            size = (int(80 * scale_factor), int(80 * scale_factor))
 
-        # Lade Bilder und skaliere sie
-        scale_factor = pygame.display.get_surface().get_size()[0] / 612
-        size = (int(80 * scale_factor), int(80 * scale_factor))
         images = [pygame.transform.scale(pygame.image.load(f"{path}/{i}.png"), size) for i in range(4, 0, -1)]
 
         return images
 
     def update(self, events):
-        self.move(self.direction, self.speed)
+        new_pos = self.pos + (self.direction * self.speed)
+        self.pos = new_pos
+
+        # Aktualisieren des Rect-Objekts, damit die Zeichnungsposition korrekt ist
+        self.rect.topleft = (int(self.pos.x), int(self.pos.y))
 
         # Update Animation
         now = pygame.time.get_ticks()
