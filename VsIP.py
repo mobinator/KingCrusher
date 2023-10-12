@@ -1,5 +1,6 @@
 import pygame
 import socket
+from Minimap import Minimap
 
 def get_local_ip():
     try:

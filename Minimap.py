@@ -4,12 +4,25 @@ from pygame import Vector2
 
 class Minimap:
     def __init__(self):
+        self.load_index = 1
+        #self.screen_size = pygame.display.get_surface().get_size()
+        #self.scale_factor = self.screen_size[0] / 612
+        #self.minimap_bg = pygame.transform.scale(pygame.image.load('assets/minimap/bg.png'), (int(160*self.scale_factor), int(120*self.scale_factor)))
+        #self.minimap_bg_rect = self.minimap_bg.get_rect(topleft=(self.screen_size[0] - int(170*self.scale_factor), 10))
+
+    def load(self, win):
         self.screen_size = pygame.display.get_surface().get_size()
         self.scale_factor = self.screen_size[0] / 612
         self.minimap_bg = pygame.transform.scale(pygame.image.load('assets/minimap/bg.png'), (int(160*self.scale_factor), int(120*self.scale_factor)))
         self.minimap_bg_rect = self.minimap_bg.get_rect(topleft=(self.screen_size[0] - int(170*self.scale_factor), 10))
-
+    
     def draw(self, win):
+        if self.load_index < 3:
+            self.load_index += 1
+            self.screen_size = pygame.display.get_surface().get_size()
+            self.scale_factor = self.screen_size[0] / 612
+            self.minimap_bg = pygame.transform.scale(pygame.image.load('assets/minimap/bg.png'), (int(160*self.scale_factor), int(120*self.scale_factor)))
+            self.minimap_bg_rect = self.minimap_bg.get_rect(topleft=(self.screen_size[0] - int(170*self.scale_factor), 10))
         # Draw the semi-transparent background
         win.blit(self.minimap_bg, self.minimap_bg_rect.topleft)
 
