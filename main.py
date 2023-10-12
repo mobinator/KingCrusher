@@ -5,6 +5,7 @@ from Mainmenu import MainMenu
 from Settings import Settings
 from Escapemenu import EscapeMenu
 from VsIP import IPinput
+from JSONHandler import JSONHandler
 
 pygame.init()
 win = pygame.display.set_mode((612, 400))
@@ -71,6 +72,8 @@ while True:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     escape_menu.show()
+                if event.key == pygame.K_F5:  # F5 zum Speichern
+                    JSONHandler.save_player_to_json(game.player)
             escape_menu.handle_event(event)
         escape_menu.draw(win)
 
