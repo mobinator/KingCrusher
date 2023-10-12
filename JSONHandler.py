@@ -68,6 +68,13 @@ class JSONHandler:
 
         with open(filename, 'w') as file:
             json.dump(game_data, file)
+    
+    @staticmethod
+    def load_opponent_data(filename='game_state_opponent.json'):
+        """Lädt die Daten des Gegners aus der JSON-Datei."""
+        with open(filename, 'r') as file:
+            game_data = json.load(file)
+        return game_data
 
     @staticmethod
     def load_game_from_json(game, filename='game_state.json'):
