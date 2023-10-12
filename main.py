@@ -73,7 +73,7 @@ while True:
                 if event.key == pygame.K_ESCAPE:
                     escape_menu.show()
                 if event.key == pygame.K_F5:  # F5 zum Speichern
-                    JSONHandler.save_player_to_json(game.player)
+                    JSONHandler.save_game_to_json(game)
             escape_menu.handle_event(event)
         escape_menu.draw(win)
 
