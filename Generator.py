@@ -2,6 +2,7 @@ import pygame
 from Empty import *
 from pygame import Vector2
 
+
 class Generator(CollisionShape2D):
 
     def __init__(self, center, current_timer_time):

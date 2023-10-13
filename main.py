@@ -46,7 +46,7 @@ while True:
         ip_input.draw(win)
         ip_input.check_for_enter(state)
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN or  event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONUP or event.type == event.type == pygame.KEYDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONUP or event.type == event.type == pygame.KEYDOWN:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         minimap.load(win)
