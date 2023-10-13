@@ -7,12 +7,15 @@ from Escapemenu import EscapeMenu
 from VsIP import IPinput
 from JSONHandler import JSONHandler
 from Minimap import Minimap
+from Networking import Networking
 
 pygame.init()
 win = pygame.display.set_mode((612, 400))
 clock = pygame.time.Clock()
+networking = Networking()
 
-game = Game()
+
+game = Game(networking)
 game.set_player(Player(20, 20, game))
 menu = MainMenu()
 settings = Settings(menu)
@@ -20,7 +23,7 @@ settings = Settings(menu)
 state = ["MAIN_MENU"]
 
 escape_menu = EscapeMenu(state)
-ip_input = IPinput()
+ip_input = IPinput(networking)
 minimap = Minimap()
 
 while True:
@@ -71,6 +74,9 @@ while True:
     else:  # state == "GAME"
         game.update(events)
         game.draw(win)
+
+        game.networking.begin()
+
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()

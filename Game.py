@@ -8,12 +8,14 @@ from Minimap import Minimap
 
 
 class Game(Empty):
-    def __init__(self):
+    def __init__(self, networking):
         super().__init__(0, 0)
-        #collision and render layers
+        # collision and render layers
         self.render_layers = [[], [], [], [], []]
         self.collision_layers = [[], [], [], [], []]
         self.game_objects = []
+
+        self.networking = networking
         
         self.background = Background(pygame.display.get_surface().get_size())
         

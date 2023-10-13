@@ -15,6 +15,9 @@ def get_local_ip():
 
 
 class IPinput:
+
+    def __init__(self, networking):
+        self.networking = networking
     
     def load(self, win):
         
@@ -86,6 +89,7 @@ class IPinput:
             elif event.key == pygame.K_RETURN:
                 if len(self.input_text) > 8 and self.input_text.count('.') == 3:
                     print("IP:", self.input_text)
+                    self.networking.set_enemy_ip(self.input_text)
                 else:
                     print("not full ip adress")
 
