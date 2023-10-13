@@ -4,15 +4,14 @@ from Minimap import Minimap
 
 def get_local_ip():
     try:
-        # Erstellen Sie eine Verbindung zum Internet (verwendet Google's öffentlichen DNS-Server, um dies zu tun)
-        # Dies wird nur dazu verwendet, um eine Internetverbindung herzustellen und NICHT wirklich eine Verbindung zu Google herzustellen.
+        # get internet connection
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
         local_ip = s.getsockname()[0]
         s.close()
         return local_ip
     except:
-        return "127.0.0.1"  # Wenn keine Verbindung möglich ist, geben Sie localhost zurück
+        return "127.0.0.1"  # localhost if no internet
 
 
 class IPinput:
@@ -56,12 +55,13 @@ class IPinput:
         win.blit(rendered_text, self.input_pos)
         
         ip_text = self.ip_font.render("Your IP: " + self.local_ip, True, (255, 255, 255))
-        win.blit(ip_text, (10, 10))  # Sie können die Position nach Bedarf anpassen
+        win.blit(ip_text, (10, 10))
 
 
     def handle_event(self, event, state):
         mouse_pos = pygame.mouse.get_pos()
  
+        #exit button events
         if event.type == pygame.MOUSEMOTION:
             if self.exit_button_rect.collidepoint(mouse_pos):
                 self.exit_button_image = self.exit_button_images["hover"]

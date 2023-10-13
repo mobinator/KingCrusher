@@ -67,6 +67,7 @@ class Player(CollisionShape2D):
         
         self.move(direction, self.base_speed * speed_factor)
 
+        #all selection menu options
         for event in events:
             if event.type == Events.COIN:
                 self.process_coins()

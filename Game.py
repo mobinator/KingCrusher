@@ -10,7 +10,7 @@ from Minimap import Minimap
 class Game(Empty):
     def __init__(self):
         super().__init__(0, 0)
-
+        #collision and render layers
         self.render_layers = [[], [], [], [], []]
         self.collision_layers = [[], [], [], [], []]
         self.game_objects = []
