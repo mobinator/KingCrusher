@@ -42,9 +42,7 @@ while True:
                     state[0] = "VS_IP"
                 elif menu.check_settings_click(event.pos):
                     state[0] = "SETTINGS"
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
+
     elif state[0] == "VS_IP":
         ip_input.draw(win)
         ip_input.check_for_enter(state)
@@ -54,11 +52,9 @@ while True:
                     if event.key == pygame.K_RETURN:
                         minimap.load(win)
                 ip_input.handle_event(event, state)
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
 
     elif state[0] == "SETTINGS":
+
         settings.check_button_hover(pygame.mouse.get_pos())
         settings.draw(win)
         for event in events:
@@ -67,9 +63,6 @@ while True:
                     pass
                 elif settings.check_back_button_click(event.pos):
                     state[0] = "MAIN_MENU"
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
 
     else:  # state == "GAME"
         game.update(events)
@@ -77,10 +70,10 @@ while True:
 
         game.networking.begin()
 
+        networking.send("move")
+
         for event in events:
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     escape_menu.show()
@@ -88,5 +81,11 @@ while True:
                     JSONHandler.save_game_to_json(game)
             escape_menu.handle_event(event)
         escape_menu.draw(win)
+
+    for event in events:
+        if event.type == pygame.QUIT:
+            networking.end()
+            pygame.quit()
+            exit()
 
     pygame.display.update()
