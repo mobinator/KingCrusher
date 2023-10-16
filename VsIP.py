@@ -1,6 +1,7 @@
 import pygame
 import socket
 from Minimap import Minimap
+import re
 
 def get_local_ip():
     try:
@@ -87,7 +88,10 @@ class IPinput:
             elif event.key == pygame.K_BACKSPACE:
                 self.input_text = self.input_text[:-1]
             elif event.key == pygame.K_RETURN:
-                if len(self.input_text) > 8 and self.input_text.count('.') == 3:
+
+                checked = re.search("[0-9][0-9]?[0-9]?[.][0-9][0-9]?[0-9]?[.][0-9][0-9]?[0-9]?[.][0-9][0-9]?[0-9]?", self.input_text)
+
+                if checked and checked.group() == self.input_text:
                     print("IP:", self.input_text)
                     self.networking.set_enemy_ip(self.input_text)
                 else:
