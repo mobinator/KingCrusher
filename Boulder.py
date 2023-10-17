@@ -1,3 +1,5 @@
+import json
+
 import pygame
 from Empty import *
 
@@ -65,4 +67,4 @@ class Boulder(CollisionShape2D):
                           "y": self.direction.y}
         }
 
-        return str(data)
+        return json.dumps(data)
