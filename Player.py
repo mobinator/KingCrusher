@@ -1,4 +1,4 @@
-import pygame
+import pygame, json
 
 from pygame import Vector2
 from Empty import CollisionShape2D, Events
@@ -138,4 +138,4 @@ class Player(CollisionShape2D):
             "y": self.pos.y
         }
 
-        return str(data)
+        return json.dumps(data)

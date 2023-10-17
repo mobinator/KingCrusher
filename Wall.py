@@ -1,3 +1,5 @@
+import json
+
 import pygame
 from Empty import *
 from pygame import Vector2
@@ -43,4 +45,4 @@ class Wall(CollisionShape2D):
             "y": self.pos.y
         }
 
-        return str(data)
+        return json.dumps(data)
