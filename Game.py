@@ -56,9 +56,7 @@ class Game(Empty):
 
     def add_and_send_object(self, game_object, render_layer, collision_layer):
 
-        self.add_to_render_layer(render_layer, game_object)
-        self.add_to_collision_layer(collision_layer, game_object)
-        self.game_objects.append(game_object)
+        self.add_object(game_object, render_layer, collision_layer)
 
         self.networking.send(str(game_object))
 

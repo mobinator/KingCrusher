@@ -51,7 +51,8 @@ while True:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         minimap.load(win)
-                        game.networking.begin()
+                        game.networking.begin(game)
+
                 ip_input.handle_event(event, state)
 
     elif state[0] == "SETTINGS":
