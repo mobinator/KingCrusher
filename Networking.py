@@ -42,7 +42,8 @@ class Networking:
         self.running = False
         if self.receiver and self.receiver.is_alive():
             self.receiver.join()
-        self.socket.close()
+        if self.socket:
+            self.socket.close()
 
 
     def send(self, message):
