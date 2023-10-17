@@ -22,6 +22,21 @@ class Boulder(CollisionShape2D):
 
         self.rect = pygame.Rect(self.pos.x, self.pos.y, self.size.x, self.size.y)
 
+    def __init__(self, center, charge, direction):
+        super().__init__(center, Vector2(charge * 10))
+
+        self.charge = charge
+        self.animation_images = self.load_images()
+        self.current_image_index = len(self.animation_images) - 1  # Starte mit dem letzten Bild
+        self.animation_timer = pygame.time.get_ticks()  # Timer für Animation
+        self.animation_delay = 100  # Millisekunden zwischen den Bildwechseln
+
+        self.direction = direction
+
+        self.speed = 6 - charge / 2
+
+        self.rect = pygame.Rect(self.pos.x, self.pos.y, self.size.x, self.size.y)
+
     def load_images(self):
         scale_factor = pygame.display.get_surface().get_size()[0] / 612
         
@@ -63,7 +78,7 @@ class Boulder(CollisionShape2D):
             "x": self.pos.x,
             "y": self.pos.y,
             "charge": self.charge,
-            "direction": {"X": self.direction.x,
+            "direction": {"x": self.direction.x,
                           "y": self.direction.y}
         }
 

@@ -39,12 +39,8 @@ class Networking:
         self.receiver.start()
 
     def end(self):
-        self.running = False
-        if self.receiver and self.receiver.is_alive():
-            self.receiver.join()
         if self.socket:
             self.socket.close()
-
 
     def send(self, message):
         if self.socket:
@@ -54,21 +50,31 @@ class Networking:
     def receive_messages(self):
         while self.running:
             data, address = self.socket.recvfrom(128)
-            if len(data.decode()) > 0: # and address[0] == self.enemyIP
+            if len(data.decode()) > 0:  # and address[0] == self.enemyIP
                 try:
                     data = json.loads(data.decode())
+                    print(data)
 
                     if data["type"] == "Player":
                         print("Player")
                     elif data["type"] == "Boulder":
-                        center = Vector2(data["x"], data["y"])
+                        center = Vector2(data["x"], -data["y"])
                         charge = data["charge"]
+                        direction = Vector2(data["direction"]["x"], -data["direction"]["y"])
 
-                        self.game.add_object(Boulder())
+                        self.game.add_object(Boulder(center=center, charge=charge, direction=direction), 1, 1)
                     elif data["type"] == "Wall":
-                        print("Wall")
+
+                        center = Vector2(data["x"], -data["y"])
+
+                        self.game.add_object(Wall(center))
+
                     elif data["type"] == "Generator":
-                        print("Generator")
+
+                        center = Vector2(data["x"], -data["y"])
+
+                        self.game.add_object(Generator(center))
+
 
                 except json.JSONDecodeError:
                     print("JSONMESSAGE WAS ENCODED WORONG")
