@@ -17,6 +17,7 @@ class Networking:
         self.socketNum = 50002
         self.socket = None
         self.game = None
+        self.running = True
 
         self.receiver = None
 
@@ -38,7 +39,11 @@ class Networking:
         self.receiver.start()
 
     def end(self):
+        self.running = False
+        if self.receiver and self.receiver.is_alive():
+            self.receiver.join()
         self.socket.close()
+
 
     def send(self, message):
         if self.socket:
@@ -46,7 +51,7 @@ class Networking:
             self.socket.sendto(message.encode(), (self.enemyIP, self.socketNum))
 
     def receive_messages(self):
-        while True:
+        while self.running:
             data, address = self.socket.recvfrom(128)
             if len(data.decode()) > 0: # and address[0] == self.enemyIP
                 try:
