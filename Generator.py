@@ -39,3 +39,12 @@ class Generator(CollisionShape2D):
                 self.animation_index += 1
                 if self.animation_index == len(self.building_animations):
                     self.finished_building = True
+
+    def __str__(self):
+        data = {
+            "type": "Generator",
+            "x": self.pos.x,
+            "y": self.pos.y
+        }
+
+        return str(data)

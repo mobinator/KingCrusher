@@ -32,10 +32,10 @@ class Game(Empty):
 
         for event in events:
             if event.type == Events.SHOOT:
-                self.add_object(Boulder(self.player.center.copy(), event.power, event.inherited_speed), 4, 1)
+                self.add_and_send_object(Boulder(self.player.center.copy(), event.power, event.inherited_speed), 4, 1)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_b and not self.player.build_menu.active: # REMOVE FOR ACTUAL GAME
                 self.coin_delay /= 2.1 # coin multiplicator
-                self.add_object(Generator(self.player.center.copy(), self.coin_delay), 1, 1)
+                self.add_and_send_object(Generator(self.player.center.copy(), self.coin_delay), 1, 1)
 
     def draw(self, win):
         self.background.draw(win)
@@ -50,10 +50,17 @@ class Game(Empty):
         self.add_object(player, 2, 1)
 
     def add_object(self, game_object, render_layer, collision_layer):
+        self.add_to_render_layer(render_layer, game_object)
+        self.add_to_collision_layer(collision_layer, game_object)
+        self.game_objects.append(game_object)
+
+    def add_and_send_object(self, game_object, render_layer, collision_layer):
 
         self.add_to_render_layer(render_layer, game_object)
         self.add_to_collision_layer(collision_layer, game_object)
         self.game_objects.append(game_object)
+
+        self.networking.send(str(game_object))
 
     def add_to_render_layer(self, layer_index, game_object):
         self.render_layers[layer_index].append(game_object)

@@ -18,7 +18,9 @@ class Networking:
     def begin(self):
         if self.socket is None:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.socket.bind(('0.0.0.0', 50002))
+            self.socket.bind(('0.0.0.0', self.socketNum))
+        else:
+            self.socket.sendto(b'0', (self.enemyIP, self.socketNum))
 
     def end(self):
         self.socket.close()
@@ -26,4 +28,4 @@ class Networking:
     def send(self, message):
         if self.socket:
             print("sending: ", message)
-            self.socket.sendto(message.encode(), (self.enemyIP, 50002))
+            self.socket.sendto(message.encode(), (self.enemyIP, self.socketNum))

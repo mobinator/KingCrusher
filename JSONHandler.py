@@ -57,6 +57,14 @@ class JSONHandler:
 
         return objects_list
 
+    @staticmethod
+    def game_to_dict(game, filename='game_state.json'):
+        """Speichert den aktuellen Spielzustand in eine JSON-Datei."""
+        game_data = {
+            "player": JSONHandler.player_to_dict(game.player),
+            "game_objects": JSONHandler.game_objects_to_dict(game.game_objects)
+        }
+        return game_data
 
     @staticmethod
     def save_game_to_json(game, filename='game_state.json'):
@@ -92,8 +100,8 @@ class JSONHandler:
             # Ein Beispiel, wie man Objekte basierend auf ihrem Typ wiederherstellt
             if obj_data["type"] == "Generator":
                 generator = Generator(Vector2(obj_data["position"]["x"], obj_data["position"]["y"]), game.coin_delay)  # Hier wird der coin_delay einfach aus dem aktuellen Spielzustand verwendet
-                game.add_object(generator, 1, 1)
+                game.add_and_send_object(generator, 1, 1)
             elif obj_data["type"] == "Wall":
                 wall = Wall(Vector2(obj_data["position"]["x"], obj_data["position"]["y"]))
-                game.add_object(wall, 1, 1)
+                game.add_and_send_object(wall, 1, 1)
             # Weitere Bedingungen können hinzugefügt werden, wenn Sie andere Spielobjekte speichern/laden möchten

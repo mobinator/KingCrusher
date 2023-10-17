@@ -17,8 +17,7 @@ class Boulder(CollisionShape2D):
         self.direction += inherited_speed/2
 
         self.speed = 6 - charge/2
-    
-        
+
         self.rect = pygame.Rect(self.pos.x, self.pos.y, self.size.x, self.size.y)
 
     def load_images(self):
@@ -55,3 +54,15 @@ class Boulder(CollisionShape2D):
         current_image = self.animation_images[self.current_image_index]
         # Hier benutzen wir topleft statt pos, weil pygame.Rect die obere linke Ecke für das Zeichnen erwartet
         win.blit(current_image, self.rect.topleft)
+
+    def __str__(self):
+        data = {
+            "type": "Boulder",
+            "x": self.pos.x,
+            "y": self.pos.y,
+            "charge": self.charge,
+            "direction": {"X": self.direction.x,
+                          "y": self.direction.y}
+        }
+
+        return str(data)

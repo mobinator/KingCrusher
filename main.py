@@ -51,6 +51,7 @@ while True:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         minimap.load(win)
+                        game.networking.begin()
                 ip_input.handle_event(event, state)
 
     elif state[0] == "SETTINGS":
@@ -67,13 +68,7 @@ while True:
     else:  # state == "GAME"
         game.update(events)
         game.draw(win)
-
-        game.networking.begin()
-
-        networking.send("move")
-
         for event in events:
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     escape_menu.show()
@@ -81,6 +76,8 @@ while True:
                     JSONHandler.save_game_to_json(game)
             escape_menu.handle_event(event)
         escape_menu.draw(win)
+
+        networking.send(str(game.player))
 
     for event in events:
         if event.type == pygame.QUIT:
