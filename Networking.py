@@ -4,6 +4,7 @@ from pygame import Vector2
 import json
 import VsIP
 from Boulder import Boulder
+from EnemyPlayer import EnemyPlayer
 from Player import Player
 from Wall import Wall
 from Generator import Generator
@@ -27,6 +28,7 @@ class Networking:
     def begin(self, game):
 
         self.game = game
+        self.game.enemy_player = EnemyPlayer(100, 100)
 
         if self.socket is None:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -56,7 +58,11 @@ class Networking:
                     # print(data)
 
                     if data["type"] == "Player":
-                        print("Player")
+
+                        pos = Vector2(data["x"], -data["y"])
+
+                        self.game.enemy_player.update_pos(pos)
+
                     elif data["type"] == "Boulder":
                         print(data)
 
@@ -69,13 +75,13 @@ class Networking:
 
                         center = Vector2(data["x"], -data["y"])
 
-                        self.game.add_object(Wall(center), 1, 1)
+                        self.game.add_object(Wall(center, True), 1, 1)
 
                     elif data["type"] == "Generator":
 
                         center = Vector2(data["x"], -data["y"])
 
-                        self.game.add_object(Generator(center), 1, 1)
+                        self.game.add_object(Generator(center, True), 1, 1)
 
                 except json.JSONDecodeError:
                     print("JSONMESSAGE WAS ENCODED WORONG")

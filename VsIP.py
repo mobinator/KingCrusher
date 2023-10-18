@@ -94,6 +94,8 @@ class IPinput:
                 if checked and checked.group() == self.input_text:
                     print("IP:", self.input_text)
                     self.networking.set_enemy_ip(self.input_text)
+                    if self.input_text == '1.1.1.1':
+                        self.networking.set_enemy_ip(self.networking.ownIP)
                 else:
                     print("not full ip adress")
 

@@ -68,7 +68,7 @@ class Player(CollisionShape2D):
 
         self.move(direction, self.base_speed * speed_factor)
 
-        #all selection menu options
+        # all selection menu options
         for event in events:
             if event.type == Events.COIN:
                 self.process_coins()
@@ -80,7 +80,7 @@ class Player(CollisionShape2D):
                     self.game.coin_delay /= 2.1
                     self.game.add_and_send_object(Generator(self.center.copy(), self.game.coin_delay), 1, 1)
                 elif self.build_menu.state == "left":
-                    self.game.add_and_send_object(Wall(self.center.copy()), 1, 1)
+                    self.game.add_and_send_object(Wall(self.center.copy(), False), 1, 1)
                 elif self.charge > 0:
                     pygame.event.post(pygame.event.Event(Events.SHOOT, power=self.charge, inherited_speed=direction))
                     self.charge = 0

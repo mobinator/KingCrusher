@@ -7,11 +7,13 @@ from pygame import Vector2
 
 class Generator(CollisionShape2D):
 
-    def __init__(self, center, current_timer_time=None):
+    def __init__(self, center, enemy_generator, current_timer_time=None,):
         size = Vector2(120, 120)
         super().__init__(center, size)
         if current_timer_time:
             pygame.time.set_timer(Events.COIN, int(current_timer_time))
+
+        self.enemy_generator = enemy_generator
         
         self.initial_window_size = (612, 400)
         self.window_size = pygame.display.get_surface().get_size()
@@ -24,16 +26,16 @@ class Generator(CollisionShape2D):
         self.animation_time = 0
         self.finished_building = False
 
-
     def draw(self, win):
-        scale_factor = self.window_size[0] / self.initial_window_size[0]
-        if not self.finished_building:
-            img = pygame.transform.scale(self.building_animations[self.animation_index],
-                                         (int(120 * scale_factor), int(120 * scale_factor)))
-        else:
-            img = pygame.transform.scale(self.final_image, (int(120 * scale_factor), int(120 * scale_factor)))
-            
-        win.blit(img, self.pos)
+        if not self.enemy_generator:
+            scale_factor = self.window_size[0] / self.initial_window_size[0]
+            if not self.finished_building:
+                img = pygame.transform.scale(self.building_animations[self.animation_index],
+                                             (int(120 * scale_factor), int(120 * scale_factor)))
+            else:
+                img = pygame.transform.scale(self.final_image, (int(120 * scale_factor), int(120 * scale_factor)))
+
+            win.blit(img, self.pos)
 
     def update(self, events):
         self.window_size = pygame.display.get_surface().get_size()
