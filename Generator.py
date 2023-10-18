@@ -7,9 +7,11 @@ from pygame import Vector2
 
 class Generator(CollisionShape2D):
 
-    def __init__(self, center, current_timer_time):
-        super().__init__(center, Vector2(120, 120))
-        pygame.time.set_timer(Events.COIN, int(current_timer_time))
+    def __init__(self, center, current_timer_time=None):
+        size = Vector2(120, 120)
+        super().__init__(center, size)
+        if current_timer_time:
+            pygame.time.set_timer(Events.COIN, int(current_timer_time))
         
         self.initial_window_size = (612, 400)
         self.window_size = pygame.display.get_surface().get_size()
@@ -22,19 +24,6 @@ class Generator(CollisionShape2D):
         self.animation_time = 0
         self.finished_building = False
 
-    def __init__(self, center):
-        super().__init__(center, Vector2(120, 120))
-
-        self.initial_window_size = (612, 400)
-        self.window_size = pygame.display.get_surface().get_size()
-
-        self.building_animations = [pygame.image.load(f'assets/landscape/generator/{i}.png') for i in range(1, 8)]
-        self.final_image = pygame.image.load('assets/landscape/generator/8.png')
-
-        self.animation_index = 0
-        self.animation_speed = 10
-        self.animation_time = 0
-        self.finished_building = False
 
     def draw(self, win):
         scale_factor = self.window_size[0] / self.initial_window_size[0]
@@ -59,8 +48,8 @@ class Generator(CollisionShape2D):
     def __str__(self):
         data = {
             "type": "Generator",
-            "x": self.pos.x,
-            "y": self.pos.y
+            "x": self.center.x,
+            "y": self.center.y
         }
 
         return json.dumps(data)

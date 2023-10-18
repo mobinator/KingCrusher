@@ -3,35 +3,26 @@ import json
 import pygame
 from Empty import *
 
+
 class Boulder(CollisionShape2D):
 
-    def __init__(self, center, charge, inherited_speed: Vector2):
-        super().__init__(center, Vector2(charge*10))
-
-        self.charge = charge
-        self.animation_images = self.load_images()
-        self.current_image_index = len(self.animation_images) - 1  # Starte mit dem letzten Bild
-        self.animation_timer = pygame.time.get_ticks()  # Timer für Animation
-        self.animation_delay = 100  # Millisekunden zwischen den Bildwechseln
-
-        self.direction = Vector2(0, -1)
-
-        self.direction += inherited_speed/2
-
-        self.speed = 6 - charge/2
-
-        self.rect = pygame.Rect(self.pos.x, self.pos.y, self.size.x, self.size.y)
-
-    def __init__(self, center, charge, direction):
+    def __init__(self, center, charge, inherited_speed: Vector2, enemy_boulder):
         super().__init__(center, Vector2(charge * 10))
 
+        self.inherited_speed = inherited_speed
         self.charge = charge
+
         self.animation_images = self.load_images()
         self.current_image_index = len(self.animation_images) - 1  # Starte mit dem letzten Bild
         self.animation_timer = pygame.time.get_ticks()  # Timer für Animation
         self.animation_delay = 100  # Millisekunden zwischen den Bildwechseln
 
-        self.direction = direction
+        if enemy_boulder:
+            self.direction = Vector2(0, 1)
+            self.direction -= inherited_speed / 2
+        else:
+            self.direction = Vector2(0, -1)
+            self.direction += inherited_speed / 2
 
         self.speed = 6 - charge / 2
 
@@ -39,7 +30,7 @@ class Boulder(CollisionShape2D):
 
     def load_images(self):
         scale_factor = pygame.display.get_surface().get_size()[0] / 612
-        
+
         if 1 <= self.charge <= 2:
             path = "assets/attacks/small"
             size = (int(40 * scale_factor), int(40 * scale_factor))
@@ -78,8 +69,8 @@ class Boulder(CollisionShape2D):
             "x": self.pos.x,
             "y": self.pos.y,
             "charge": self.charge,
-            "direction": {"x": self.direction.x,
-                          "y": self.direction.y}
+            "inherited_speed": {"x": self.inherited_speed.x,
+                                "y": self.inherited_speed.y}
         }
 
         return json.dumps(data)

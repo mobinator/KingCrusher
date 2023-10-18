@@ -32,9 +32,9 @@ class Game(Empty):
 
         for event in events:
             if event.type == Events.SHOOT:
-                self.add_and_send_object(Boulder(self.player.center.copy(), event.power, event.inherited_speed), 4, 1)
+                self.add_and_send_object(Boulder(self.player.center.copy(), event.power, event.inherited_speed, False), 4, 1)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_b and not self.player.build_menu.active: # REMOVE FOR ACTUAL GAME
-                self.coin_delay /= 2.1 # coin multiplicator
+                self.coin_delay /= 2.1  # coin multiplicator
                 self.add_and_send_object(Generator(self.player.center.copy(), self.coin_delay), 1, 1)
 
     def draw(self, win):

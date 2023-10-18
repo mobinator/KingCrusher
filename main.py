@@ -31,6 +31,12 @@ while True:
     win.fill((0, 0, 0))
     events = pygame.event.get()
 
+    for event in events:
+        if event.type == pygame.QUIT:
+            networking.end()
+            pygame.quit()
+            exit()
+
     if state[0] == "MAIN_MENU":
         menu.check_button_hover(pygame.mouse.get_pos())
         menu.draw(win)
@@ -79,11 +85,5 @@ while True:
         escape_menu.draw(win)
 
         networking.send(str(game.player))
-
-    for event in events:
-        if event.type == pygame.QUIT:
-            networking.end()
-            pygame.quit()
-            exit()
 
     pygame.display.update()

@@ -41,8 +41,8 @@ class Wall(CollisionShape2D):
     def __str__(self):
         data = {
             "type": "Wall",
-            "x": self.pos.x,
-            "y": self.pos.y
+            "x": self.center.x,
+            "y": self.center.y
         }
 
         return json.dumps(data)

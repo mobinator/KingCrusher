@@ -53,28 +53,29 @@ class Networking:
             if len(data.decode()) > 0:  # and address[0] == self.enemyIP
                 try:
                     data = json.loads(data.decode())
-                    print(data)
+                    # print(data)
 
                     if data["type"] == "Player":
                         print("Player")
                     elif data["type"] == "Boulder":
+                        print(data)
+
                         center = Vector2(data["x"], -data["y"])
                         charge = data["charge"]
-                        direction = Vector2(data["direction"]["x"], -data["direction"]["y"])
+                        inherited_speed = Vector2(data["inherited_speed"]["x"], data["inherited_speed"]["y"])
 
-                        self.game.add_object(Boulder(center=center, charge=charge, direction=direction), 1, 1)
+                        self.game.add_object(Boulder(center, charge, inherited_speed, True), 1, 1)
                     elif data["type"] == "Wall":
 
                         center = Vector2(data["x"], -data["y"])
 
-                        self.game.add_object(Wall(center))
+                        self.game.add_object(Wall(center), 1, 1)
 
                     elif data["type"] == "Generator":
 
                         center = Vector2(data["x"], -data["y"])
 
-                        self.game.add_object(Generator(center))
-
+                        self.game.add_object(Generator(center), 1, 1)
 
                 except json.JSONDecodeError:
                     print("JSONMESSAGE WAS ENCODED WORONG")
