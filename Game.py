@@ -12,7 +12,7 @@ class Game(Empty):
         super().__init__(0, 0, 69)
         # collision and render layers
         self.render_layers = [[], [], [], [], []]
-        self.collision_layer = [[], [], []]
+        self.collision_layers = [[], [], []]
         self.game_objects = []
 
         self.networking = networking
@@ -112,8 +112,8 @@ class Game(Empty):
 
         # Objekt aus der entsprechenden Kollisionsschicht entfernen
         collision_layer_index = game_object.collisionLayer
-        if 0 <= collision_layer_index < len(self.collision_layer):
-            collision_layer = self.collision_layer[collision_layer_index]
+        if 0 <= collision_layer_index < len(self.collision_layers):
+            collision_layer = self.collision_layers[collision_layer_index]
             collision_layer_object_index = game_object.collisionLayerIndex
             if 0 <= collision_layer_object_index < len(collision_layer):
                 # Wir entfernen das Objekt direkt aus der Liste
@@ -129,7 +129,7 @@ class Game(Empty):
         game_object.renderLayerIndex = len(self.render_layers[layer_index]) - 1
 
     def add_to_collision_layer(self, layer_index, game_object):
-        self.collision_layer[layer_index].append(game_object)
+        self.collision_layers[layer_index].append(game_object)
         game_object.collisionLayer = layer_index
         game_object.collisionLayerIndex = len(self.render_layers[layer_index]) - 1
 
