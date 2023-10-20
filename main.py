@@ -15,7 +15,7 @@ clock = pygame.time.Clock()
 
 networking = Networking()
 game = Game(networking)
-game.set_player(Player(20, 20, game))
+game.set_player(Player(200, 200, game))
 
 menu = MainMenu()
 settings = Settings(menu)

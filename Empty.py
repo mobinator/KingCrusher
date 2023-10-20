@@ -34,19 +34,58 @@ class Empty:
             self.deleting = True
 
 
-class Sprite(Empty):
+class AnimatedSprite(Empty):
 
-    def __init__(self, x, y, sprite, animated):
-        super().__init__(x, y, 0)
+    def __init__(self, offset, sprite, init_sprites, frame_rate, size, parent, looping=False):
+        super().__init__(offset.x, offset.y, 0)
 
-        self.sprite = sprite
-        self.animated = animated
+        self.pos += parent.pos
+        self.parent = parent
+        self.sprite = pygame.transform.scale(sprite, size)
+        self.offset = offset
+        self.size = size
+
+        self.draw_pos = self.pos
+
+        self.init_sprites = init_sprites
+        self.frame_count = len(init_sprites)
+        self.frame_index = 0
+        self.init_finished = False
+        self.frame_rate = frame_rate
+        self.frame_counter = 0
+
+        self.looping = looping
 
     def draw(self, win):
-        pass
+        if self.init_finished:
+            win.blit(self.sprite, self.draw_pos)
+        else:
+            self.draw_animated(win)
 
     def draw_animated(self, win):
-        pass
+        current_sprite = self.init_sprites[self.frame_index]
+        current_sprite = pygame.transform.scale(current_sprite, self.size)
+        win.blit(current_sprite, self.pos)
+
+        if self.frame_counter >= 60 // self.frame_rate:
+            self.frame_counter = 0
+
+            self.frame_index += 1
+            if self.frame_index == self.frame_count:
+                if not self.looping:
+                    self.init_finished = True
+                else:
+                    self.frame_index = 0
+
+        self.frame_counter += 1
+
+    def draw_static(self, win):
+        win.blit(self.sprite, self.draw_pos)
+
+    def update(self, events):
+        self.pos = self.offset + self.parent.pos
+
+        self.draw_pos = self.pos
 
 
 class CollisionShape2D(Empty):

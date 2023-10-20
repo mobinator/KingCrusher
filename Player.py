@@ -28,7 +28,7 @@ class Player(CollisionShape2D):
         self.animations = {
             "walking": [pygame.image.load(f'assets/king/walking/{i}.png') for i in range(1, 5)],
             "idle": [pygame.image.load(f'assets/king/idle/{i}.png') for i in range(1, 5)],
-            "damage": [],  # TODO
+            "damage": [],
             "stamina": [pygame.image.load(f'assets/ui/stamina/{i}.png') for i in range(8)]
         }
         self.current_animation = "idle"
@@ -72,7 +72,6 @@ class Player(CollisionShape2D):
 
     def update(self, events):
         direction = self.calculate_move_direction()
-
         # calculating speed factor by different screen size
         self.window_size = pygame.display.get_surface().get_size()
         speed_factor = (self.window_size[0] * self.window_size[1]) / (
