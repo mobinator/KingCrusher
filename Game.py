@@ -42,7 +42,7 @@ class Game(Empty):
             if event.type == pygame.KEYDOWN and event.key == pygame.K_b and not self.player.build_menu.active:
                 # REMOVE FOR ACTUAL GAME(KEY_B)
                 self.coin_delay /= 2.1  # coin multiplication
-                self.add_and_send_object(Generator(self.player.center.copy(), False, self.coin_delay), 1, 1)
+                self.add_and_send_object(Generator(self.player.center.copy() + Vector2(0, -100), False, self.coin_delay), 1, 1)
 
             if event.type == Events.DELETE:
                 self.delete_object(event.game_object)

@@ -39,13 +39,16 @@ class Player(CollisionShape2D):
     def draw(self, win):
         scale_factor = self.window_size[0] / 612
         # print("Scale Factor: ",scale_factor)
-        image = pygame.transform.scale(self.animations[self.current_animation][self.current_frame],
+        player_sprite = pygame.transform.scale(self.animations[self.current_animation][self.current_frame],
                                        (int(40 * scale_factor), int(80 * scale_factor)))
 
-        if self.flip_image:
-            image = pygame.transform.flip(image, True, False)
+        # Draw Collision-Box
+        pygame.draw.rect(win, (255, 0, 0), pygame.rect.Rect(self.pos, self.size))
 
-        win.blit(image, self.pos)
+        if self.flip_image:
+            player_sprite = pygame.transform.flip(player_sprite, True, False)
+
+        win.blit(player_sprite, self.pos-Vector2(player_sprite.get_size())/2)
 
         scale_factor = self.window_size[0] / self.initial_window_size[0]
         stamina_image = pygame.transform.scale(self.animations["stamina"][self.money],
@@ -53,6 +56,19 @@ class Player(CollisionShape2D):
         stamina_pos = self.pos - Vector2(40 * scale_factor, 10 * scale_factor)
         self.build_menu.draw(win)
         win.blit(stamina_image, stamina_pos)
+
+    def move(self, direction: Vector2, speed: float):
+
+        old_pos = self.pos.copy()
+        old_center = self.center.copy()
+        super().move(direction, speed)
+        bbox = pygame.Rect(self.pos, self.size)
+
+        for collision_object in self.game.collision_layers[1]:
+            collision_shape_bbox = pygame.Rect(collision_object.pos, collision_object.size)
+            if bbox.colliderect(collision_shape_bbox):
+                self.pos = old_pos
+                self.center = old_center
 
     def update(self, events):
         direction = self.calculate_move_direction()

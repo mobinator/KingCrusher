@@ -35,6 +35,8 @@ class Generator(CollisionShape2D):
             else:
                 img = pygame.transform.scale(self.final_image, (int(120 * scale_factor), int(120 * scale_factor)))
 
+            pygame.draw.rect(win, (255, 0, 0), pygame.rect.Rect(self.pos, self.size))
+
             win.blit(img, self.pos)
 
     def update(self, events):

@@ -67,6 +67,7 @@ class Boulder(CollisionShape2D):
     def draw(self, win):
         current_image = self.animation_images[self.current_image_index]
         # Hier benutzen wir topleft statt pos, weil pygame.Rect die obere linke Ecke für das Zeichnen erwartet
+        pygame.draw.rect(win, (255, 0, 0), self.rect)
         win.blit(current_image, self.rect.topleft)
 
     def collide_with(self, collision_object):
