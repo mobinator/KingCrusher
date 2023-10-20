@@ -8,7 +8,7 @@ from pygame import Vector2
 class Wall(CollisionShape2D):
 
     def __init__(self, center, enemy_wall):
-        super().__init__(center, Vector2(120, 120))
+        super().__init__(center, Vector2(120, 120), 5)
         self.enemy_wall = enemy_wall
         self.initial_window_size = (612, 400)
         self.window_size = pygame.display.get_surface().get_size()
@@ -32,6 +32,7 @@ class Wall(CollisionShape2D):
             win.blit(img, self.pos)
 
     def update(self, events):
+        super().update(events)
         self.window_size = pygame.display.get_surface().get_size()
         if not self.finished_building:
             self.animation_time += 1

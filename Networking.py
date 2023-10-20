@@ -28,7 +28,7 @@ class Networking:
     def begin(self, game):
 
         self.game = game
-        self.game.enemy_player = EnemyPlayer(100, 100)
+        self.game.set_enemy_player(EnemyPlayer(100, 100))
 
         if self.socket is None:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -70,7 +70,7 @@ class Networking:
                         charge = data["charge"]
                         inherited_speed = Vector2(data["inherited_speed"]["x"], data["inherited_speed"]["y"])
 
-                        self.game.add_object(Boulder(center, charge, inherited_speed, True), 1, 1)
+                        self.game.add_object(Boulder(center, charge, inherited_speed, True), 1, 2)
                     elif data["type"] == "Wall":
 
                         center = Vector2(data["x"], -data["y"])

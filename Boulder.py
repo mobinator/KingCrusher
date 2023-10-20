@@ -7,15 +7,17 @@ from Empty import *
 class Boulder(CollisionShape2D):
 
     def __init__(self, center, charge, inherited_speed: Vector2, enemy_boulder):
-        super().__init__(center, Vector2(charge * 10))
+        super().__init__(center, Vector2(charge * 10), charge)
 
         self.inherited_speed = inherited_speed
         self.charge = charge
+        self.deleting = False
 
         self.animation_images = self.load_images()
         self.current_image_index = len(self.animation_images) - 1  # Starte mit dem letzten Bild
         self.animation_timer = pygame.time.get_ticks()  # Timer für Animation
         self.animation_delay = 100  # Millisekunden zwischen den Bildwechseln
+        self.enemy_boulder = enemy_boulder
 
         if enemy_boulder:
             self.direction = Vector2(0, 1)
@@ -46,8 +48,12 @@ class Boulder(CollisionShape2D):
         return images
 
     def update(self, events):
+        super().update(events)
         new_pos = self.pos + (self.direction * self.speed)
         self.pos = new_pos
+
+        if -1000 > self.pos.y or self.pos.y > 1000:
+            self.delete()
 
         # Aktualisieren des Rect-Objekts, damit die Zeichnungsposition korrekt ist
         self.rect.topleft = (int(self.pos.x), int(self.pos.y))
@@ -62,6 +68,10 @@ class Boulder(CollisionShape2D):
         current_image = self.animation_images[self.current_image_index]
         # Hier benutzen wir topleft statt pos, weil pygame.Rect die obere linke Ecke für das Zeichnen erwartet
         win.blit(current_image, self.rect.topleft)
+
+    def collide_with(self, collision_object):
+        self.health -= 1
+        collision_object.health -= 1
 
     def __str__(self):
         data = {

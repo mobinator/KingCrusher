@@ -9,7 +9,7 @@ class Generator(CollisionShape2D):
 
     def __init__(self, center, enemy_generator, current_timer_time=None,):
         size = Vector2(120, 120)
-        super().__init__(center, size)
+        super().__init__(center, size, 2)
         if current_timer_time:
             pygame.time.set_timer(Events.COIN, int(current_timer_time))
 
@@ -38,6 +38,7 @@ class Generator(CollisionShape2D):
             win.blit(img, self.pos)
 
     def update(self, events):
+        super().update(events)
         self.window_size = pygame.display.get_surface().get_size()
         if not self.finished_building:
             self.animation_time += 1

@@ -86,6 +86,6 @@ while True:
 
             networking.send(str(game.player))
 
-            print(game.enemy_player.pos, game.player.pos)
+            # print(game.enemy_player.pos, game.player.pos)
 
     pygame.display.update()
