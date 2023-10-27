@@ -51,7 +51,10 @@ class Networking:
 
     def receive_messages(self):
         while self.running:
-            data, address = self.socket.recvfrom(128)
+            try:
+                data, address = self.socket.recvfrom(128)
+            except OSError:
+                break
             if len(data.decode()) > 0:  # and address[0] == self.enemyIP
                 try:
                     data = json.loads(data.decode())
