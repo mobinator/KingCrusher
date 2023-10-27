@@ -18,6 +18,7 @@ def get_local_ip():
 class IPinput:
 
     def __init__(self, networking):
+        self.input_text = "192.168.2"
         self.networking = networking
     
     def load(self, win):
@@ -41,7 +42,6 @@ class IPinput:
         
         self.exit_button_rect = pygame.Rect(376*self.scale_factor, 123*self.scale_factor, 34*self.scale_factor, 34*self.scale_factor)
         
-        self.input_text = ""
         self.font = pygame.font.Font('assets/fonts/alagard.ttf', int(30*self.scale_factor))
         
         self.input_pos = (210*self.scale_factor, 173*self.scale_factor)
