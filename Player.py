@@ -11,7 +11,7 @@ from Wall import Wall
 class Player(CollisionShape2D):
 
     def __init__(self, x: float, y: float, game):
-        super().__init__(Vector2(x, y), Vector2(30, 40))
+        super().__init__(Vector2(x, y), Vector2(30, 40), 20)
 
         self.game = game
 

@@ -33,6 +33,11 @@ class Empty:
             pygame.event.post(pygame.event.Event(Events.DELETE, game_object=self))
             self.deleting = True
 
+    def set_health(self, health):
+        self.health = health
+        if self.health <= 0:
+            self.delete()
+
 
 class AnimatedSprite(Empty):
 

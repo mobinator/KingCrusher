@@ -73,7 +73,7 @@ class Boulder(CollisionShape2D):
 
     def collide_with(self, collision_object):
         self.health -= 1
-        collision_object.health -= 1
+        collision_object.set_health(collision_object.health - 1)
 
     def to_json(self):
         data = {
