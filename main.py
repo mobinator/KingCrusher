@@ -47,8 +47,6 @@ while True:
                         ip_input.load(win)
                         minimap.load(win)
                         state[0] = "VS_IP"
-                    elif menu.check_settings_click(event.pos):
-                        state[0] = "SETTINGS"
 
         case "VS_IP":
             ip_input.draw(win)

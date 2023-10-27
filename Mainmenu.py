@@ -40,10 +40,6 @@ class MainMenu:
         self.play_button_rect = self.play_button_image.get_rect()
         self.play_button_rect.center = (self.screen_width / 2, self.screen_height / 2)
 
-        self.settings_button_image = self.button_images["settings"]["normal"]
-        self.settings_button_rect = self.settings_button_image.get_rect()
-        self.settings_button_rect.topleft = (0, self.screen_height - button_height)
-
     def set_screen_size(self, screen_size):
         self.screen_width, self.screen_height = screen_size
         self.bg_image = pygame.transform.scale(self.bg_image_original, (self.screen_width, self.screen_height))
@@ -54,7 +50,6 @@ class MainMenu:
         win.blit(self.bg_image, (0, 0))
         win.blit(self.logo_image, self.logo_rect.topleft)
         win.blit(self.play_button_image, self.play_button_rect.topleft)
-        win.blit(self.settings_button_image, self.settings_button_rect.topleft)
 
     def check_button_hover(self, pos):
         if self.play_button_rect.collidepoint(pos):
@@ -65,21 +60,8 @@ class MainMenu:
         else:
             self.play_button_image = self.button_images["play"]["normal"]
 
-        if self.settings_button_rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0]:
-                self.settings_button_image = self.button_images["settings"]["press"]
-            else:
-                self.settings_button_image = self.button_images["settings"]["hover"]
-        else:
-            if self.play_button_image != self.button_images["play"]["press"]:
-                self.settings_button_image = self.button_images["settings"]["normal"]
 
     def check_button_click(self, pos):
         if self.play_button_rect.collidepoint(pos) and pygame.mouse.get_pressed()[0]:
-            return True
-        return False
-
-    def check_settings_click(self, pos):
-        if self.settings_button_rect.collidepoint(pos) and pygame.mouse.get_pressed()[0]:
             return True
         return False
