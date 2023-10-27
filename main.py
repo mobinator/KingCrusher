@@ -6,7 +6,6 @@ from Settings import Settings
 from Escapemenu import EscapeMenu
 from VsIP import IPinput
 from JSONHandler import JSONHandler
-from Minimap import Minimap
 from Networking import Networking
 
 pygame.init()
@@ -24,7 +23,6 @@ state = ["MAIN_MENU"]
 
 escape_menu = EscapeMenu(state)
 ip_input = IPinput(networking)
-minimap = Minimap()
 
 while True:
     clock.tick(60)
@@ -45,7 +43,6 @@ while True:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if menu.check_button_click(event.pos):
                         ip_input.load(win)
-                        minimap.load(win)
                         state[0] = "VS_IP"
 
         case "VS_IP":
@@ -55,7 +52,6 @@ while True:
                 if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONUP or event.type == event.type == pygame.KEYDOWN:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
-                            minimap.load(win)
                             game.networking.begin(game)
 
                     ip_input.handle_event(event, state)
@@ -69,6 +65,7 @@ while True:
                         pass
                     elif settings.check_back_button_click(event.pos):
                         state[0] = "MAIN_MENU"
+                        game.minimap.load()
 
         case "GAME":
             game.update(events)

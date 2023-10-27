@@ -153,11 +153,13 @@ class Player(CollisionShape2D):
 
         self.money = max(0, min(self.money, 7))
 
-    def __str__(self):
+    def to_json(self):
         data = {
             "type": "Player",
-            "x": self.pos.x,
-            "y": self.pos.y
+            "x": self.center.x,
+            "y": self.center.y
         }
+        return data
 
-        return json.dumps(data)
+    def __str__(self):
+        return json.dumps(self.to_json())

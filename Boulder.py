@@ -75,7 +75,7 @@ class Boulder(CollisionShape2D):
         self.health -= 1
         collision_object.health -= 1
 
-    def __str__(self):
+    def to_json(self):
         data = {
             "type": "Boulder",
             "x": self.pos.x,
@@ -84,5 +84,7 @@ class Boulder(CollisionShape2D):
             "inherited_speed": {"x": self.inherited_speed.x,
                                 "y": self.inherited_speed.y}
         }
+        return data
 
-        return json.dumps(data)
+    def __str__(self):
+        return json.dumps(self.to_json())

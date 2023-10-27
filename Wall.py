@@ -25,11 +25,13 @@ class Wall(CollisionShape2D):
     def update(self, events):
         super().update(events)
 
-    def __str__(self):
+    def to_json(self):
         data = {
             "type": "Wall",
             "x": self.center.x,
             "y": self.center.y
         }
+        return data
 
-        return json.dumps(data)
+    def __str__(self):
+        return json.dumps(self.to_json())

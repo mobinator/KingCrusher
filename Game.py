@@ -19,7 +19,7 @@ class Game(Empty):
         
         self.background = Background(pygame.display.get_surface().get_size())
         
-        self.minimap = Minimap()
+        self.minimap = Minimap(self)
 
         self.player = None
         self.enemy_player = None
