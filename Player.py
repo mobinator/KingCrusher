@@ -10,7 +10,7 @@ from Wall import Wall
 class Player(CollisionShape2D):
 
     def __init__(self, x: float, y: float, game):
-        super().__init__(Vector2(x, y), Vector2(20, 20))
+        super().__init__(Vector2(x, y), Vector2(30, 40))
 
         self.game = game
 
@@ -37,10 +37,11 @@ class Player(CollisionShape2D):
         self.flip_image = False
 
     def draw(self, win):
-        scale_factor = self.window_size[0] / 612
         # print("Scale Factor: ",scale_factor)
-        player_sprite = pygame.transform.scale(self.animations[self.current_animation][self.current_frame],
-                                       (int(40 * scale_factor), int(80 * scale_factor)))
+        player_sprite = pygame.transform.scale(
+            self.animations[self.current_animation][self.current_frame],
+            (40, 80)
+        )
 
         # Draw Collision-Box
         pygame.draw.rect(win, (255, 0, 0), pygame.rect.Rect(self.pos, self.size))
@@ -48,12 +49,18 @@ class Player(CollisionShape2D):
         if self.flip_image:
             player_sprite = pygame.transform.flip(player_sprite, True, False)
 
-        win.blit(player_sprite, self.pos-Vector2(player_sprite.get_size())/2)
+        player_sprite_offset = self.center-Vector2(player_sprite.get_size())/2
+        player_sprite_offset += Vector2(0, -20)
 
-        scale_factor = self.window_size[0] / self.initial_window_size[0]
-        stamina_image = pygame.transform.scale(self.animations["stamina"][self.money],
-                                               (int(120 * scale_factor), int(80 * scale_factor)))
-        stamina_pos = self.pos - Vector2(40 * scale_factor, 10 * scale_factor)
+        win.blit(player_sprite, player_sprite_offset)
+
+        stamina_image = pygame.transform.scale(
+            self.animations["stamina"][self.money],
+            (120, 80)
+        )
+        stamina_pos = self.center-Vector2(stamina_image.get_size())/2
+        stamina_pos += Vector2(0, -20)
+
         self.build_menu.draw(win)
         win.blit(stamina_image, stamina_pos)
 
