@@ -1,9 +1,10 @@
-import pygame, json
-
+import json
+import pygame
 from pygame import Vector2
+
 from Empty import CollisionShape2D, Events
-from Selectionmenu import SelectionMenu
 from Generator import Generator
+from Selectionmenu import SelectionMenu
 from Wall import Wall
 
 
@@ -99,14 +100,23 @@ class Player(CollisionShape2D):
             if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                 self.build_menu.close()
                 if self.build_menu.state == "right":
-                    self.game.coin_delay /= 2.1
-                    self.game.add_and_send_object(Generator(self.center.copy(), self.game.coin_delay), 1, 1)
+                    if self.build_menu.placement_possible:
+                        self.game.coin_delay /= 2.1
+                        self.game.add_and_send_object(Generator(self.center.copy() + Vector2(0, -100), self.game.coin_delay), 1, 1)
+                    else:
+                        self.charge = 0
+                        self.money = 7
                 elif self.build_menu.state == "left":
-                    self.game.add_and_send_object(Wall(self.center.copy(), False), 1, 1)
+                    if self.build_menu.placement_possible:
+                        self.game.add_and_send_object(Wall(self.center.copy() + Vector2(0, -100), False), 1, 1)
+                    else:
+                        self.charge = 0
+                        self.money = 7
                 elif self.charge > 0:
                     pygame.event.post(pygame.event.Event(Events.SHOOT, power=self.charge, inherited_speed=direction))
                     self.charge = 0
-                self.build_menu.state = "neutral"
+
+                self.build_menu.reset_state()
 
         self.build_menu.update(events)
         self.animation_time += 1

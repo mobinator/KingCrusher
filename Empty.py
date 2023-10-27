@@ -124,14 +124,17 @@ class CollisionShape2D(Empty):
         self.sprite = sprite
 
     def check_collision(self, collision_shape):
-        colliding = False
+        if isinstance(collision_shape, pygame.rect.Rect):
+            collision_shape_bbox = collision_shape
+        else:
+            colliding = False
 
-        if self.collisionLayer == collision_shape.collisionLayer:
-            return False
+            if self.collisionLayer == collision_shape.collisionLayer:
+                return False
+
+            collision_shape_bbox = pygame.Rect(collision_shape.pos, collision_shape.size)
 
         bbox = pygame.Rect(self.pos, self.size)
-        collision_shape_bbox = pygame.Rect(collision_shape.pos, collision_shape.size)
-
         colliding = bbox.colliderect(collision_shape_bbox)
 
         return colliding

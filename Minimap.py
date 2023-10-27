@@ -65,14 +65,15 @@ class Minimap:
             else:
                 icon_image = pygame.image.load('assets/minimap/icon_gen.png')
 
-            icon_image = pygame.transform.scale(icon_image, (int(icon_size.x), int(icon_size.y)))
+            if obj_data:
+                icon_image = pygame.transform.scale(icon_image, (int(icon_size.x), int(icon_size.y)))
 
-            # icon position
-            relative_pos = Vector2(obj_data.pos.x / self.screen_size[0],
-                                   -obj_data.pos.y / self.screen_size[1])
+                # icon position
+                relative_pos = Vector2(obj_data.pos.x / self.screen_size[0],
+                                       -obj_data.pos.y / self.screen_size[1])
 
-            icon_pos = Vector2(self.minimap_bg_rect.x + relative_pos.x * self.minimap_bg_rect.width,
-                               self.minimap_bg_rect.y + relative_pos.y * self.minimap_bg_rect.height)
+                icon_pos = Vector2(self.minimap_bg_rect.x + relative_pos.x * self.minimap_bg_rect.width,
+                                   self.minimap_bg_rect.y + relative_pos.y * self.minimap_bg_rect.height)
 
-            if is_enemy:
-                win.blit(icon_image, icon_pos)
+                if is_enemy:
+                    win.blit(icon_image, icon_pos)
