@@ -41,7 +41,7 @@ class Empty:
 
 class AnimatedSprite(Empty):
 
-    def __init__(self, offset, sprite, init_sprites, frame_rate, size, parent, looping=False):
+    def __init__(self, offset, sprite, init_sprites, frame_rate, size, parent, looping=False, animated=True):
         super().__init__(offset.x, offset.y, 0)
 
         self.pos += parent.pos
@@ -55,11 +55,14 @@ class AnimatedSprite(Empty):
         self.init_sprites = init_sprites
         self.frame_count = len(init_sprites)
         self.frame_index = 0
-        self.init_finished = False
+        self.init_finished = not animated
         self.frame_rate = frame_rate
         self.frame_counter = 0
 
         self.looping = looping
+
+    def set_sprite(self, sprite):
+        self.sprite = pygame.transform.scale(sprite, self.size)
 
     def draw(self, win):
         if self.init_finished:
@@ -152,3 +155,5 @@ class Events:
     COIN = pygame.USEREVENT + 1
     SHOOT = pygame.USEREVENT + 2
     DELETE = pygame.USEREVENT + 3
+    LOOSE = pygame.USEREVENT + 4
+    WIN = pygame.USEREVENT + 5

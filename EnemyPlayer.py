@@ -10,3 +10,9 @@ class EnemyPlayer(CollisionShape2D):
 
     def update_pos(self, pos):
         self.pos = pos
+
+    def get_health_string(self):
+        if self.health >= 10:
+            return str(self.health)
+        else:
+            return "0" + str(self.health)

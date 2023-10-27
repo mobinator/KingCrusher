@@ -25,6 +25,16 @@ class Game(Empty):
         self.enemy_player = None
         self.coin_delay = 1000
 
+        self.health_bar_own = AnimatedSprite(
+            Vector2(pygame.display.get_window_size()[0]/2 - 100, pygame.display.get_window_size()[1] - 100),
+            pygame.image.load("assets/ui/lifebar/12.png"),
+            [],
+            0,
+            Vector2(200, 120),
+            self,
+            animated=False
+        )
+
     def update(self, events):
         self.background.update_window_size()
 
@@ -47,12 +57,16 @@ class Game(Empty):
             if event.type == Events.DELETE:
                 self.delete_object(event.game_object)
 
+        self.health_bar_own.set_sprite(pygame.image.load(f"assets/ui/lifebar/{self.player.get_health_string()}.png"))
+
     def draw(self, win):
         self.background.draw(win)
         for render_layer in reversed(self.render_layers):
             for game_object in render_layer:
                 game_object.draw(win)
         self.minimap.draw(win)
+
+        self.health_bar_own.draw(win)
 
     def get_collisions(self):
 

@@ -11,7 +11,7 @@ from Wall import Wall
 class Player(CollisionShape2D):
 
     def __init__(self, x: float, y: float, game):
-        super().__init__(Vector2(x, y), Vector2(30, 40), 20)
+        super().__init__(Vector2(x, y), Vector2(30, 40), 12)
 
         self.game = game
 
@@ -162,6 +162,18 @@ class Player(CollisionShape2D):
             self.charge = 0
 
         self.money = max(0, min(self.money, 7))
+
+    def delete(self):
+        pygame.event.post(pygame.event.Event(Events.LOOSE))
+        super().delete()
+
+    def get_health_string(self):
+        if self.health >= 10:
+            return str(self.health)
+        elif self.health < 0:
+            return "00"
+        else:
+            return "0" + str(self.health)
 
     def to_json(self):
         data = {
