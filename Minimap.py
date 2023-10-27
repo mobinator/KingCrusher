@@ -1,5 +1,4 @@
 import pygame
-from JSONHandler import JSONHandler
 from pygame import Vector2
 from Generator import Generator
 from Player import Player
@@ -33,10 +32,9 @@ class Minimap:
         win.blit(self.minimap_bg, self.minimap_bg_rect.topleft)
 
         # Load opponent data and draw icons on minimap
-        opponent_data = JSONHandler.load_opponent_data()
-        self.draw_icons(win, opponent_data)
+        self.draw_icons(win)
 
-    def draw_icons(self, win, game_data):
+    def draw_icons(self, win):
         icon_size = Vector2(10, 10)
         is_enemy = False
 

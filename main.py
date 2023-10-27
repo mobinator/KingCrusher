@@ -5,7 +5,6 @@ from Mainmenu import MainMenu
 from Settings import Settings
 from Escapemenu import EscapeMenu
 from VsIP import IPinput
-from JSONHandler import JSONHandler
 from Networking import Networking
 
 pygame.init()
