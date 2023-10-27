@@ -1,6 +1,7 @@
 import pygame
 
 from Empty import *
+from Constants import Events
 from Boulder import Boulder
 from Generator import Generator
 from Background import Background

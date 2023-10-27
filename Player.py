@@ -2,7 +2,8 @@ import json
 import pygame
 from pygame import Vector2
 
-from Empty import CollisionShape2D, Events
+from Empty import CollisionShape2D
+from Constants import *
 from Generator import Generator
 from Selectionmenu import SelectionMenu
 from Wall import Wall
@@ -45,7 +46,8 @@ class Player(CollisionShape2D):
         )
 
         # Draw Collision-Box
-        pygame.draw.rect(win, (255, 0, 0), pygame.rect.Rect(self.pos, self.size))
+        if SHOW_HIT_BOXES:
+            pygame.draw.rect(win, (255, 0, 0), pygame.rect.Rect(self.pos, self.size))
 
         if self.flip_image:
             player_sprite = pygame.transform.flip(player_sprite, True, False)

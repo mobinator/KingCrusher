@@ -1,7 +1,10 @@
 import json
 
 import pygame
+
+from Constants import SHOW_HIT_BOXES
 from Empty import *
+from Constants import Events
 from pygame import Vector2, image
 
 
@@ -23,7 +26,8 @@ class Generator(CollisionShape2D):
         self.children.append(self.sprite)
 
     def draw(self, win):
-        pygame.draw.rect(win, (255, 0, 0), pygame.rect.Rect(self.pos, self.size))
+        if SHOW_HIT_BOXES:
+            pygame.draw.rect(win, (255, 0, 0), pygame.rect.Rect(self.pos, self.size))
         self.sprite.draw(win)
 
     def update(self, events):
