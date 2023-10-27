@@ -11,14 +11,14 @@ from pygame import Vector2, image
 class Generator(CollisionShape2D):
 
     def __init__(self, center, enemy_generator, current_timer_time=None,):
-        size = Vector2(120, 120)
+        size = Vector2(120, 100)
         super().__init__(center, size, 2)
         if current_timer_time:
             pygame.time.set_timer(Events.COIN, int(current_timer_time))
 
         self.enemy_generator = enemy_generator
 
-        self.sprite = AnimatedSprite(Vector2(0, 0),
+        self.sprite = AnimatedSprite(Vector2(0, -20),
                                      image.load('assets/landscape/generator/8.png'),
                                      [pygame.image.load(f'assets/landscape/generator/{i}.png') for i in range(1, 8)],
                                      6,
