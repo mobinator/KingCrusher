@@ -36,6 +36,16 @@ class Game(Empty):
             animated=False
         )
 
+        self.health_bar_enemy = AnimatedSprite(
+            Vector2(pygame.display.get_window_size()[0] / 2 - 100, -60),
+            pygame.image.load("assets/ui/lifebar/12.png"),
+            [],
+            0,
+            Vector2(200, 120),
+            self,
+            animated=False
+        )
+
     def update(self, events):
         self.background.update_window_size()
 
@@ -55,8 +65,41 @@ class Game(Empty):
                 self.coin_delay /= 2.1  # coin multiplication
                 self.add_and_send_object(Generator(self.player.center.copy() + Vector2(0, -100), False, self.coin_delay), 1, 1)
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_k:
+                    self.player.set_health(self.player.health - 1)
+                if event.key == pygame.K_l:
+                    self.enemy_player.set_health(self.enemy_player.health - 1)
+
             if event.type == Events.DELETE:
                 self.delete_object(event.game_object)
+
+            if event.type == Events.WIN:
+                print("You Won")
+                font = pygame.font.Font('assets/fonts/alagard.ttf', int(40))
+                win_text = AnimatedSprite(
+                    Vector2(pygame.display.get_window_size()) / 2 - Vector2(150, 20),
+                    font.render("Du Hast Gewonnen!", True, (0, 0, 0)),
+                    [],
+                    30,
+                    Vector2(300, 40),
+                    self,
+                    animated=False
+                )
+                self.add_to_render_layer(4, win_text)
+            if event.type == Events.LOOSE:
+                print("You Lost")
+                font = pygame.font.Font('assets/fonts/alagard.ttf', int(40))
+                win_text = AnimatedSprite(
+                    Vector2(pygame.display.get_window_size()) / 2 - Vector2(150, 20),
+                    font.render("Du Hast Verloren :(", True, (0, 0, 0)),
+                    [],
+                    30,
+                    Vector2(300, 40),
+                    self,
+                    animated=False
+                )
+                self.add_to_render_layer(4, win_text)
 
         self.health_bar_own.set_sprite(pygame.image.load(f"assets/ui/lifebar/{self.player.get_health_string()}.png"))
 
@@ -68,6 +111,7 @@ class Game(Empty):
         self.minimap.draw(win)
 
         self.health_bar_own.draw(win)
+        self.health_bar_enemy.draw(win)
 
     def get_collisions(self):
 

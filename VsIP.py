@@ -18,7 +18,7 @@ def get_local_ip():
 class IPinput:
 
     def __init__(self, networking):
-        self.input_text = "192.168.2.106"
+        self.input_text = "1.1.1.1"
         self.networking = networking
     
     def load(self, win):

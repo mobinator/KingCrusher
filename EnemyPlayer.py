@@ -1,5 +1,6 @@
 from Empty import CollisionShape2D
 from pygame import Vector2
+from Constants import Events
 import pygame
 
 
@@ -10,6 +11,10 @@ class EnemyPlayer(CollisionShape2D):
 
     def update_pos(self, pos):
         self.pos = pos
+
+    def delete(self):
+        pygame.event.post(pygame.event.Event(Events.WIN))
+        super().delete()
 
     def get_health_string(self):
         if self.health >= 10:
