@@ -10,10 +10,10 @@ from pygame import Vector2, image
 class Wall(CollisionShape2D):
 
     def __init__(self, center, enemy_wall):
-        super().__init__(center, Vector2(180, 120), 5)
+        super().__init__(center, Vector2(180, 100), 5)
         self.enemy_wall = enemy_wall
 
-        self.sprite = AnimatedSprite(Vector2(-10, 0),
+        self.sprite = AnimatedSprite(Vector2(-10, -20),
                                      image.load('assets/landscape/wall/8.png'),
                                      [pygame.image.load(f'assets/landscape/wall/{i}.png') for i in range(1, 8)],
                                      6,
