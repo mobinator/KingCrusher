@@ -60,11 +60,6 @@ class Game(Empty):
 
                 self.add_and_send_object(Boulder(self.player.center.copy(), event.power, event.inherited_speed, False), 4, 0)
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_b and not self.player.build_menu.active:
-                # REMOVE FOR ACTUAL GAME(KEY_B)
-                self.coin_delay /= 2.1  # coin multiplication
-                self.add_and_send_object(Generator(self.player.center.copy() + Vector2(0, -100), False, self.coin_delay), 1, 1)
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_k:
                     self.player.set_health(self.player.health - 1)
@@ -191,4 +186,3 @@ class Game(Empty):
         self.collision_layers[layer_index].append(game_object)
         game_object.collisionLayer = layer_index
         game_object.collisionLayerIndex = len(self.render_layers[layer_index]) - 1
-
