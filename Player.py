@@ -103,7 +103,7 @@ class Player(CollisionShape2D):
                 self.build_menu.close()
                 if self.build_menu.state == "right":
                     if self.build_menu.placement_possible:
-                        self.game.coin_delay /= 2.1
+                        self.game.add_generator()
                         self.game.add_and_send_object(Generator(self.center.copy() + Vector2(0, -100), self.game.coin_delay), 1, 1)
                     else:
                         self.charge = 0

@@ -24,7 +24,8 @@ class Game(Empty):
 
         self.player = None
         self.enemy_player = None
-        self.coin_delay = 1000
+        self.coin_delay = 750
+        self.generator_count = 0
 
         self.health_bar_own = AnimatedSprite(
             Vector2(pygame.display.get_window_size()[0]/2 - 100, pygame.display.get_window_size()[1] - 100),
@@ -137,13 +138,36 @@ class Game(Empty):
         self.add_object(game_object, render_layer, collision_layer)
         self.networking.send(str(game_object))
 
+    def remove_generator(self):
+        self.generator_count -= 1
+        self.update_coin_delay()
+
+    def add_generator(self):
+        self.generator_count += 1
+        self.update_coin_delay()
+
+    def update_coin_delay(self):
+        if self.generator_count == 0:
+            self.coin_delay = 750
+        elif self.generator_count == 1:
+            self.coin_delay = 500
+        elif self.generator_count == 2:
+            self.coin_delay = 300
+        elif self.generator_count == 3:
+            self.coin_delay = 250
+        else:
+            self.coin_delay = 200
+
+        print(self.coin_delay)
+
+        pygame.time.set_timer(Events.COIN, int(self.coin_delay))
+
     def delete_object(self, game_object):
         # Log Nachricht zum Debuggen
         print(f"Deleting object: {self.game_objects[game_object.objectIndex]}")
 
         if isinstance(game_object, Generator) and not game_object.enemy_generator:
-            self.coin_delay *= 2.1
-            pygame.time.set_timer(Events.COIN, int(self.coin_delay))
+            self.remove_generator()
 
         # Objekt aus der allgemeinen Spielobjektliste entfernen
         object_index = game_object.objectIndex
