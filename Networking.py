@@ -65,6 +65,7 @@ class Networking:
                         pos = Vector2(data["x"], -data["y"])
 
                         self.game.enemy_player.update_pos(pos)
+                        self.game.enemy_player.health = data["hp"]
 
                     elif data["type"] == "Boulder":
                         print(data)

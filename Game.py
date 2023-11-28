@@ -172,8 +172,7 @@ class Game(Empty):
         # Objekt aus der allgemeinen Spielobjektliste entfernen
         object_index = game_object.objectIndex
         if 0 <= object_index < len(self.game_objects):
-            self.game_objects[
-                object_index] = None  # Setzen Sie das Element an dieser Position auf None, anstatt zu löschen, um den Index aller anderen Objekte zu erhalten
+            self.game_objects[object_index] = None  # Setzen Sie das Element an dieser Position auf None, anstatt zu löschen, um den Index aller anderen Objekte zu erhalten
 
         # Objekt aus der entsprechenden Render-Schicht entfernen
         render_layer_index = game_object.renderLayer

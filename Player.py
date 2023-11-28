@@ -180,6 +180,7 @@ class Player(CollisionShape2D):
     def to_json(self):
         data = {
             "type": "Player",
+            "hp": self.health,
             "x": self.center.x,
             "y": self.center.y
         }
