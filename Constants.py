@@ -9,5 +9,5 @@ class Events:
     WIN = pygame.USEREVENT + 5
 
 
-SHOW_HIT_BOXES = False
+SHOW_HIT_BOXES = True
 

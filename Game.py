@@ -98,6 +98,7 @@ class Game(Empty):
                 self.add_to_render_layer(4, win_text)
 
         self.health_bar_own.set_sprite(pygame.image.load(f"assets/ui/lifebar/{self.player.get_health_string()}.png"))
+        self.health_bar_enemy.set_sprite(pygame.image.load(f"assets/ui/lifebar/{self.enemy_player.get_health_string()}.png"))
 
     def draw(self, win):
         self.background.draw(win)
