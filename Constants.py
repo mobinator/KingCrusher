@@ -11,3 +11,5 @@ class Events:
 
 SHOW_HIT_BOXES = True
 
+ENABLE_DEBUG = True
+

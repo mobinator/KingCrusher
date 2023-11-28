@@ -104,7 +104,7 @@ class Player(CollisionShape2D):
                 if self.build_menu.state == "right":
                     if self.build_menu.placement_possible:
                         self.game.add_generator()
-                        self.game.add_and_send_object(Generator(self.center.copy() + Vector2(0, -100), self.game.coin_delay), 1, 1)
+                        self.game.add_and_send_object(Generator(self.center.copy() + Vector2(0, -100), False), 1, 1)
                     else:
                         self.charge = 0
                         self.money = 7
@@ -164,6 +164,7 @@ class Player(CollisionShape2D):
             self.charge = 0
 
         self.money = max(0, min(self.money, 7))
+        print(f"Player Money: {self.money}")
 
     def delete(self):
         pygame.event.post(pygame.event.Event(Events.LOOSE))

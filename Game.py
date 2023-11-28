@@ -1,11 +1,13 @@
 import pygame
 
+import Constants
 from Empty import *
 from Constants import Events
 from Boulder import Boulder
 from Generator import Generator
 from Background import Background
 from Minimap import Minimap
+from Wall import Wall
 
 
 class Game(Empty):
@@ -66,6 +68,12 @@ class Game(Empty):
                     self.player.set_health(self.player.health - 1)
                 if event.key == pygame.K_l:
                     self.enemy_player.set_health(self.enemy_player.health - 1)
+                if event.key == pygame.K_g and Constants.ENABLE_DEBUG:
+                    self.add_and_send_object(Generator(self.player.center + Vector2(0, -100), False), 1, 1)
+                    self.add_generator()
+                if event.key == pygame.K_h and Constants.ENABLE_DEBUG:
+                    self.add_and_send_object(Wall(self.player.center + Vector2(0, -100), False), 1, 1)
+                    self.add_generator()
 
             if event.type == Events.DELETE:
                 self.delete_object(event.game_object)
